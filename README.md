@@ -1,93 +1,103 @@
 # Calendar API Client
 
-
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.com/ud-labs/py-calendar-api.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-* [Set up project integrations](https://gitlab.com/ud-labs/py-calendar-api/-/settings/integrations)
-
-## Collaborate with your team
-
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+A python 3.12+ client for the calendar-api API of Moroccan holidays and business days
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+
+```bash
+pip install py-calendar-api --index-url https://gitlab.com/api/v4/projects/71396283/packages/pypi/simple
+```
+
+# Français/French
+
+## Configuration via fichier de configuration py-calendar-api.toml
+
+Créer un fichier de configuration `py-calendar-api.toml` et renseigner les variables suivantes:
+
+```toml
+CALENDAR_APIKEY = "VOTRE-APIKEY"
+```
+
+## Instanciation du client
+
+```python
+from pycalendar_api import CalendarApi, ApiConfig
+
+# Depuis fichier de configuration
+api = CalendarApi.from_config_file('chemin-du-fichier.toml')
+
+# Depuis les variables d'environnement
+api = CalendarApi.from_env()
+
+# Via constructeur (2-steps)
+api_conf = ApiConfig(user_email, user_password)
+api = CalendarApi(api_conf)
+```
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+L'ensemble des domaines exposés par Atlas Market sont accessibles au niveau de CalendarApi où chaque domaine
+représente un aspect central du marché financier.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Chaque domaine expose des les méthodes génériques selon sa nature.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+- Référentiel
+    - **one**: Retourne une entité du domaine identifiée par `key`
+    - **many**: Retourne plusieurs entités du domaine identifiées par `list[key]`
+    - **mapping**: Retourne un dict entre 2 champs du domaine. ex: (code_isin, description)
+    - **filter**: Effectue une recherche multi-citères par clés/valeurs. Voir la doc API pour les paramètres de chaque domaine
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+- Historique
+    - **historique**: Retourne l'historique d'un domaine
+    - **historique_dates**: Retourne la liste des dates disponibles dans l'historique
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+- Performance
+    - performance: Retourne la performance d'un instrument financier selon deux types de formats
+        - **Spot**: Performance absolue entre 2 dates
+        - **Série**: Série des performances quotidiennes couvrant la période entre 2 dates
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+### Exemple avec les Indices
 
-## License
-For open source projects, say how it is licensed.
+L'exemple ci-dessous reste valable aux autres domaines. OPCVM, Actions, Obligation, Devise
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+```python
+from pycalendar_api import CalendarApi, ApiConfig, to_date
+
+api = CalendarApi.from_config_file('chemin-du-fichier.toml')
+```
+
+#### Référentiel
+
+```python
+# ---- Référentiel d'un indice
+masi = api.indice.one('MASI')
+
+# ---- Référentiel de plusieurs indices
+indices = api.indice.many(['MASI', 'MBI', 'MASI.RB'])
+
+```
+
+#### Historique
+
+```python
+# ---- Historique entre 2 dates
+histo_masi = api.indice.historique('MASI', date_reference=to_date('30/12/2024'), date_marche=to_date('30/06/2025'))
+
+# ---- Historique sur une période (voir la doc de l'API pour les périodes)
+histo_masi = api.indice.historique('MASI', date_marche=to_date('30/06/2025'), periode='YTD')
+```
+#### Performance
+
+```python
+# ---- Performance spot entre 2 dates
+perf_masi = api.indice.performance('MASI', date_reference=to_date('30/12/2024'), date_marche=to_date('30/06/2025'))
+# ---- Performance spot sur une période
+perf_masi = api.indice.performance('MASI', date_marche=to_date('30/06/2025'), periode='YTD')
+
+# ---- Performance série entre 2 dates
+perf_masi = api.indice.performance(
+    'MASI', date_reference=to_date('30/12/2024'), date_marche=to_date('30/06/2025'),type_performance=TypePerformance.SERIE)
+# ---- Performance série sur une période
+perf_masi = api.indice.performance(
+    'MASI', date_marche=to_date('30/06/2025'), periode='YTD',type_performance=TypePerformance.SERIE)
+```
