@@ -1,0 +1,87 @@
+import datetime
+
+import httpx
+
+from pycalendar_api.exceptions import CalendarAPIParamError
+from pycalendar_api.models import CalSpan, DateSeries, DaysCount, NextDate, PreviousDate
+
+from .base import BaseMixin
+from .urls import ENDPOINTS
+
+
+class BDaysResource(BaseMixin):
+
+    resource_name = "bdays"
+
+    def __init__(self, client: httpx.Client):
+        super().__init__(client, endpoints=ENDPOINTS)
+
+    def between(self, start: datetime.date, end: datetime.date) -> DateSeries:
+        key = 'between'
+        pms = {'start': start, 'end': end}
+        url = self.endpoint_by_operation(key)
+        resp = self.client.get(url, params=pms)
+        data = self.json_from_response_or_raise(resp)
+        return self._struct_model(data, model_type=DateSeries)
+
+    def bdays_of(self, year: int, month: int=None) -> DateSeries:
+        key = 'year'
+        pms = {'year': year}
+        if month:
+            key = 'month'
+            pms['month'] = month
+
+        url = self.endpoint_by_operation(key)
+        url = url.format(**pms)
+        resp = self.client.get(url)
+        data = self.json_from_response_or_raise(resp)
+        return self._struct_model(data, model_type=DateSeries)
+
+    def count(self, start: datetime.date, end: datetime.date) -> DaysCount:
+        key = 'count'
+        pms = {'start': start, 'end': end}
+        url = self.endpoint_by_operation(key)
+        resp = self.client.get(url, params=pms)
+        data = self.json_from_response_or_raise(resp)
+        return self._struct_model(data, model_type=DaysCount)
+
+    def next_date(self, date: datetime.date) -> NextDate:
+        url = self.endpoint_by_operation('next')
+        params = {'date': date}
+        data = self.json_from_response_or_raise(self.client.get(url, params=params))
+        return self._struct_model(data, model_type=NextDate)
+
+    def previous_date(self, date: datetime.date) -> PreviousDate:
+        url = self.endpoint_by_operation('previous')
+        params = {'date': date}
+        data = self.json_from_response_or_raise(self.client.get(url, params=params))
+        return self._struct_model(data, model_type=PreviousDate)
+
+    # ============ Spans =============
+    def span(self, year: int, *, month: int=None, quarter: int=None, semester: int=None) -> CalSpan:
+        args = (month, quarter, semester)
+        t_args = sum([x is None for x in args])
+        # Au max un seul argument doit être renseigné.
+        # On compte les arguments nuls, Si 2 ou tous renseignés t_args = (0, 1)
+        if t_args < 2:
+            raise CalendarAPIParamError(f"Pass ONLY  one of the args: `month` or `quarter` or `semester`, received: {args}")
+
+        key = None
+        params = {'year': year}
+
+        if t_args == 3:  # Span Year => All args are None
+            key = 'span:year'
+        elif month:  # Span Month
+            params['month'] = month
+            key = 'span:month'
+        elif quarter:  # Span quarter
+            params['quarter'] = quarter
+            key = 'span:quarter'
+        elif semester:  # Span semester
+            params['semester'] = semester
+            key = 'span:semester'
+
+        url = self.endpoint_by_operation(key)
+        resp = self.client.get(url, params=params)
+        data = self.json_from_response_or_raise(resp)
+        return self._struct_model(data, model_type=CalSpan)
