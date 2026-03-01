@@ -1,0 +1,139 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+		},
+		{
+			"name": "config",
+			"path": "/Users/mero/calendar-api",
+		}
+	],
+	"settings":
+	{
+		"python_interpreter": "/Users/mero/miniforge3/envs/datashop/bin/python",
+		"LSP":
+		{
+			"LSP-pylsp":
+			{
+			    "settings": {
+			        // If you are using a virtual environment, specify a path to it to here. For example: "./.venv/myproject",
+					"pylsp.plugins.jedi.environment": "/Users/mero/miniforge3/envs/datashop/bin/python",
+					"pylsp.plugins.jedi.extra_paths": [
+						"$sublime_py_files_dir",
+						"$packages",
+					],
+			        // Whether to place extra_paths at the beginning (true) or end (false) of `sys.path`
+			        "pylsp.plugins.jedi.prioritize_extra_paths": true,
+			        // Define environment variables for jedi.Script and Jedi.names.
+			        "pylsp.plugins.jedi.env_vars": null,
+			        // List of module names for jedi.settings.auto_import_modules.
+			        "pylsp.plugins.jedi.auto_import_modules": ["numpy", "sqlalchemy", "sqlalchemy.orm", "xlsxwriter"],
+			        // Enable or disable the plugin.
+			        "pylsp.plugins.jedi_completion.enabled": true,
+			        // Modules for which the labels should be cached.
+			        "pylsp.plugins.jedi_completion.cache_for": ["numpy", "sqlalchemy", "xlsxwriter", "more_itertools"],
+			        "pylsp.plugins.jedi_completion.eager": false,
+			        // Enable fuzzy when requesting autocomplete.
+			        "pylsp.plugins.jedi_completion.fuzzy": true,
+			        // Adds class objects as a separate completion item.
+			        "pylsp.plugins.jedi_completion.include_class_objects": false,
+			        // Adds function objects as a separate completion item.
+			        "pylsp.plugins.jedi_completion.include_function_objects": false,
+			        // Auto-completes methods and classes with tabstops for each parameter.
+			        "pylsp.plugins.jedi_completion.include_params": false,
+			        // How many labels (at most) should be resolved?
+			        "pylsp.plugins.jedi_completion.resolve_at_most": 20,
+			        // Enable or disable the plugin.
+			        "pylsp.plugins.jedi_definition.enabled": true,
+			        "pylsp.plugins.pycodestyle.aggressive": null,
+
+			        "pylsp.configurationSources": ["flake8"],
+			        "pylsp.plugins.flake8.enabled": false,
+			        "pylsp.plugins.pycodestyle.enabled": false,
+			        "pylsp.plugins.pydocstyle.enabled": false,
+			        "pylsp.plugins.pyflakes.enabled": false,
+			        "pylsp.plugins.pylint.enabled": false,
+			        "pylsp.plugins.pylsp_mypy.enabled": false,
+			        // Ruff config
+			        "pylsp.plugins.ruff.enabled": true,
+			        "pylsp.plugins.ruff.formatEnabled": true,
+			        "pylsp.plugins.ruff.lineLength": 120,
+			        "pylsp.plugins.ruff.exclude": ["__init__.py", "**/migrations", "**tests/**"],
+			        "pylsp.plugins.ruff.select": [
+					  "A",
+					  "B",
+					  "C4",
+					  "E",
+					  "F",
+					  "G",
+					  "I",
+					  "LOG",
+					  "N",
+					  "NPY",
+					  "PT",
+					  "Q",
+					  "SIM",
+					  "UP",
+					  "W",
+					],
+                    "pylsp.plugins.ruff.ignore": ["E501", "B904", "Q000"],
+                    "pylsp.plugins.ruff.severities": {
+			          "F401": "W",
+			          "F841": "W",
+			        },
+                    // "pylsp.plugins.ruff.format": ["I", "Q"],
+                    // "pylsp.plugins.ruff.targetVersion": "py312",
+			        // --- flake8 settings ---
+			        // Path to the config file that will be the authoritative config source.
+			        "pylsp.plugins.flake8.config": null,
+			        // Exclude files or directories which match these patterns.
+			        "pylsp.plugins.flake8.exclude": ["*__init__.py*"],
+			        // Path to the flake8 executable.
+			        "pylsp.plugins.flake8.executable": "flake8",
+			        // When parsing directories, only check filenames matching these patterns.
+			        "pylsp.plugins.flake8.filename": null,
+			        // Hang closing bracket instead of matching indentation of opening bracket's line.
+			        "pylsp.plugins.flake8.hangClosing": null,
+			        // List of errors and warnings to ignore (or skip).
+			        "pylsp.plugins.flake8.ignore": ["E252","E227", "E704"],
+			        // Maximum allowed complexity threshold.
+			        "pylsp.plugins.flake8.maxComplexity": 18,
+			        // Set maximum allowed line length.
+			        "pylsp.plugins.flake8.maxLineLength": 129,
+			        // Ignore errors and warnings per file.
+			        // Each individual item should be in a format `file_path:error_code`. For example `"project/__init__.py:W305,W304"`.
+			        "pylsp.plugins.flake8.perFileIgnores": null,
+			        // Select errors and warnings.
+			        "pylsp.plugins.flake8.select": null,
+			        "pylsp.plugins.mccabe.enabled": true,
+			        // The minimum threshold that triggers warnings about cyclomatic complexity.
+			        "pylsp.plugins.mccabe.threshold": 18,
+			        // --- pycodestyle settings ---
+			        // Exclude files or directories which match these patterns.
+			        "pylsp.plugins.pycodestyle.exclude": null,
+			        // When parsing directories, only check filenames matching these patterns.
+			        "pylsp.plugins.pycodestyle.filename": null,
+			        // Hang closing bracket instead of matching indentation of opening bracket's line.
+			        "pylsp.plugins.pycodestyle.hangClosing": null,
+			        // Ignore errors and warnings.
+			        "pylsp.plugins.pycodestyle.ignore": [
+			            "E226",
+			            "E252",
+			            "E501",
+					],
+			        // Set maximum allowed line length.
+			        "pylsp.plugins.pycodestyle.maxLineLength": 120,
+			        // Select errors and warnings.
+			        "pylsp.plugins.pycodestyle.select": null,
+			        // --- formatters settings ---
+			        "pylsp.plugins.autopep8.enabled": false,
+			        "pylsp.plugins.yapf.enabled": false,
+			        "pylsp.plugins.pyls_isort.enabled": false,
+			        
+			    },
+			},
+		},
+	},
+
+}

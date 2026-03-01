@@ -8,96 +8,92 @@ A python 3.12+ client for the calendar-api API of Moroccan holidays and business
 pip install py-calendar-api --index-url https://gitlab.com/api/v4/projects/71396283/packages/pypi/simple
 ```
 
-# Français/French
+## Quickstart
 
-## Configuration via fichier de configuration py-calendar-api.toml
-
-Créer un fichier de configuration `py-calendar-api.toml` et renseigner les variables suivantes:
-
-```toml
-CALENDAR_APIKEY = "VOTRE-APIKEY"
-```
-
-## Instanciation du client
+### Holidays API
 
 ```python
-from pycalendar_api import CalendarApi, ApiConfig
+from pycalendar_api import CalendarApi, to_date
 
-# Depuis fichier de configuration
-api = CalendarApi.from_config_file('chemin-du-fichier.toml')
+api = CalendarApi('YOUR_API_KEY') # or api = CalendarApi.from_env()
 
-# Depuis les variables d'environnement
-api = CalendarApi.from_env()
+# Check if a date is a Holiday
+api.holidays.is_holiday(to_date('14/01/2025'))
+Out[]: HolidayCheckResult(
+    date=datetime.date(2025, 7, 22), is_holiday=False,
+    description=None, holiday_type=None, status=None, country_code='MA'
+)
 
-# Via constructeur (2-steps)
-api_conf = ApiConfig(user_email, user_password)
-api = CalendarApi(api_conf)
+# List Holidays of a year
+api.holidays.year(2025)
+Out[]: [
+    Holiday(description="Jour de l'AN", day=1, month=1, date=datetime.date(2025, 1, 1), holiday_type=<CalHolidayType.NATIONAL: 'National'>, status=<CalHolidayStatus.OFFICIAL: 'Official'>, country_code='MA'),
+    Holiday(description="Manifeste de l'Indépendance", day=11, month=1, date=datetime.date(2025, 1, 11), holiday_type=<CalHolidayType.NATIONAL: 'National'>, status=<CalHolidayStatus.OFFICIAL: 'Official'>, country_code='MA'),
+    Holiday(description='Nouvel An Amazigh', day=14, month=1, date=datetime.date(2025, 1, 14), holiday_type=<CalHolidayType.NATIONAL: 'National'>, status=<CalHolidayStatus.OFFICIAL: 'Official'>, country_code='MA'),
+    ...,
+]
+
+# List Holidays of many years
+api.holidays.years(list(range(2017, 2027)))
+Out[]: [
+    Holiday(description="Jour de l'AN", day=1, month=1, date=datetime.date(2025, 1, 1), holiday_type=<CalHolidayType.NATIONAL: 'National'>, status=<CalHolidayStatus.OFFICIAL: 'Official'>, country_code='MA'),
+    Holiday(description="Manifeste de l'Indépendance", day=11, month=1, date=datetime.date(2025, 1, 11), holiday_type=<CalHolidayType.NATIONAL: 'National'>, status=<CalHolidayStatus.OFFICIAL: 'Official'>, country_code='MA'),
+    Holiday(description='Nouvel An Amazigh', day=14, month=1, date=datetime.date(2025, 1, 14), holiday_type=<CalHolidayType.NATIONAL: 'National'>, status=<CalHolidayStatus.OFFICIAL: 'Official'>, country_code='MA'),
+    ...,
+]
 ```
 
-## Usage
+### Business Days API
 
-L'ensemble des domaines exposés par Atlas Market sont accessibles au niveau de CalendarApi où chaque domaine
-représente un aspect central du marché financier.
-
-Chaque domaine expose des les méthodes génériques selon sa nature.
-
-- Référentiel
-    - **one**: Retourne une entité du domaine identifiée par `key`
-    - **many**: Retourne plusieurs entités du domaine identifiées par `list[key]`
-    - **mapping**: Retourne un dict entre 2 champs du domaine. ex: (code_isin, description)
-    - **filter**: Effectue une recherche multi-citères par clés/valeurs. Voir la doc API pour les paramètres de chaque domaine
-
-- Historique
-    - **historique**: Retourne l'historique d'un domaine
-    - **historique_dates**: Retourne la liste des dates disponibles dans l'historique
-
-- Performance
-    - performance: Retourne la performance d'un instrument financier selon deux types de formats
-        - **Spot**: Performance absolue entre 2 dates
-        - **Série**: Série des performances quotidiennes couvrant la période entre 2 dates
-
-### Exemple avec les Indices
-
-L'exemple ci-dessous reste valable aux autres domaines. OPCVM, Actions, Obligation, Devise
+#### Bdays operations
 
 ```python
-from pycalendar_api import CalendarApi, ApiConfig, to_date
+# Business days of a year
+api.bdays.bdays_of(2025)
+Out[]: DateSeries(
+   ref='bdays-2025', min_date='2025-01-02', max_date='2025-12-31', freq=<CalFreq.DAILY: 'D'>, nitems=247,
+   serie=SortedSet([datetime.date(2025, 1, 2), datetime.date(2025, 1, 3), datetime.date(2025, 1, 6), ..., datetime.date(2025, 12, 29), datetime.date(2025, 12, 30), datetime.date(2025, 12, 31)])
+)
 
-api = CalendarApi.from_config_file('chemin-du-fichier.toml')
+# Business days of a month
+api.bdays.bdays_of(2025, month=6)
+Out[]: DateSeries(
+   ref='bdays-2025-06', min_date='2025-06-02', max_date='2025-06-30', freq=<CalFreq.DAILY: 'D'>, nitems=19,
+   serie=SortedSet([datetime.date(2025, 6, 2), datetime.date(2025, 6, 3), datetime.date(2025, 6, 4), datetime.date(2025, 6, 5), ..., datetime.date(2025, 6, 25), datetime.date(2025, 6, 26), datetime.date(2025, 6, 30)])
+)
+
+# Next Business day
+api.bdays.next_date(to_date('13/01/2025'))
+Out[]: NextDate(date=datetime.date(2025, 1, 13), next_date=datetime.date(2025, 1, 15))
+
+# Previous Business day
+api.bdays.previous_date(to_date('15/01/2025'))
+Out[]: NextDate(date=datetime.date(2025, 1, 15), previous_date=datetime.date(2025, 1, 13))
+
+# Business days between 2 dates
+api.bdays.count(to_date('02/01/2025'), to_date('31/12/2025'))
+Out[25]: DaysCount(start_date=datetime.date(2025, 1, 2), end_date=datetime.date(2025, 12, 31), count=247, freq=<CalFreq.DAILY: 'D'>)
 ```
 
-#### Référentiel
+#### Spans: Start/End of periods
+
+Calculate the dates interval of different periods
 
 ```python
-# ---- Référentiel d'un indice
-masi = api.indice.one('MASI')
+# =============== SPANS: Start/End of periods ===============
+# Year 2025 span
+api.bdays.span(2025)
+Out[]: CalSpan(start_date=datetime.date(2024, 12, 31), end_date=datetime.date(2025, 12, 31), year=2025, semester=None, quarter=None, month=None, country_code='MA')
 
-# ---- Référentiel de plusieurs indices
-indices = api.indice.many(['MASI', 'MBI', 'MASI.RB'])
+# 1st Semester of year 2025
+api.bdays.span(2025, semester=1)
+Out[]: CalSpan(start_date=datetime.date(2024, 12, 31), end_date=datetime.date(2025, 6, 30), year=2025, semester=1, quarter=None, month=None, country_code='MA')
 
-```
+# 3rd Quarter of year 2025
+api.bdays.span(2025, quarter=3)
+Out[]: CalSpan(start_date=datetime.date(2025, 6, 30), end_date=datetime.date(2025, 9, 30), year=2025, semester=None, quarter=3, month=None, country_code='MA')
 
-#### Historique
-
-```python
-# ---- Historique entre 2 dates
-histo_masi = api.indice.historique('MASI', date_reference=to_date('30/12/2024'), date_marche=to_date('30/06/2025'))
-
-# ---- Historique sur une période (voir la doc de l'API pour les périodes)
-histo_masi = api.indice.historique('MASI', date_marche=to_date('30/06/2025'), periode='YTD')
-```
-#### Performance
-
-```python
-# ---- Performance spot entre 2 dates
-perf_masi = api.indice.performance('MASI', date_reference=to_date('30/12/2024'), date_marche=to_date('30/06/2025'))
-# ---- Performance spot sur une période
-perf_masi = api.indice.performance('MASI', date_marche=to_date('30/06/2025'), periode='YTD')
-
-# ---- Performance série entre 2 dates
-perf_masi = api.indice.performance(
-    'MASI', date_reference=to_date('30/12/2024'), date_marche=to_date('30/06/2025'),type_performance=TypePerformance.SERIE)
-# ---- Performance série sur une période
-perf_masi = api.indice.performance(
-    'MASI', date_marche=to_date('30/06/2025'), periode='YTD',type_performance=TypePerformance.SERIE)
+# Month 7 of year 2025 (July) 
+api.bdays.span(2025, month=7)
+Out[]: CalSpan(start_date=datetime.date(2025, 6, 30), end_date=datetime.date(2025, 7, 31), year=2025, semester=None, quarter=None, month=7, country_code='MA')
 ```
