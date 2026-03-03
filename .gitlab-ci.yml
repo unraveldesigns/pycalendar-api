@@ -65,6 +65,7 @@ publish-pypi:
 pages:
   stage: publish
   script:
+    - apt-get update && apt-get install -y --no-install-recommends git
     - pip install --upgrade pip
     - pip install -e .[dev]
     - mkdocs build --strict --verbose --site-dir public
