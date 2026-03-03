@@ -5,7 +5,7 @@ A python 3.12+ client for the calendar-api API of Moroccan holidays and business
 ## Installation
 
 ```bash
-pip install py-calendar-api --index-url https://gitlab.com/api/v4/projects/71396283/packages/pypi/simple
+pip install pycalendar-api --index-url https://gitlab.com/api/v4/projects/79644191/packages/pypi/simple
 ```
 
 ## Quickstart

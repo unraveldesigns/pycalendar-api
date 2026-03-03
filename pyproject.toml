@@ -14,6 +14,30 @@ dependencies = [
   'sortedcontainers',
   'tomlkit',
 ]
+keywords = ["SETUPTOOLS", "CALENDAR API", "API CLIENT", "CALENDAR", "HOLIDAYS", "MOROCCO"]
+authors = [
+  {name = "Marouane FAKIR", email = "mfakir@unraveldesigns.ma"},
+  {name = "Unravel Designs", email = "ud@unraveldesigns.ma"},
+]
+maintainers = [
+  {name = "Marouane FAKIR", email = "mfakir@unraveldesigns.ma"},
+  {name = "Unravel Designs", email = "ud@unraveldesigns.ma"},
+]
+classifiers = [
+  # Indicate who your project is intended for
+  "License :: GPL",
+  "Intended Audience :: Developpers",
+  "Intended Audience :: Developpers :: Data Engineers",
+  "Intended Audience :: Analysts",
+  "Topic :: Software Development :: Calendar API",
+  "Topic :: Software Development :: API Client",
+  "Topic :: Software Development :: Holidays",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
 
 [build-system]
 requires = ["setuptools>=69.0.3", "wheel", "setuptools_scm>=8"]
@@ -70,29 +94,3 @@ unfixable = []
 [tool.ruff.format]
 docstring-code-format = true
 preview = true
-
-keywords = ["SETUPTOOLS", "CALENDAR API", "API CLIENT", "CALENDAR", "HOLIDAYS", "MOROCCO"]
-authors = [
-  {name = "Marouane FAKIR", email = "mfakir@unraveldesigns.ma"},
-  {name = "Unravel Designs", email = "ud@unraveldesigns.ma"},
-]
-maintainers = [
-  {name = "Marouane FAKIR", email = "mfakir@unraveldesigns.ma"},
-  {name = "Unravel Designs", email = "ud@unraveldesigns.ma"},
-]
-
-classifiers = [
-  # Indicate who your project is intended for
-  "License :: GPL",
-  "Intended Audience :: Developpers",
-  "Intended Audience :: Developpers :: Data Engineers",
-  "Intended Audience :: Analysts",
-  "Topic :: Software Development :: Calendar API",
-  "Topic :: Software Development :: API Client",
-  "Topic :: Software Development :: Holidays",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
-  "Programming Language :: Python :: 3.14",
-]
