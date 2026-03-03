@@ -1,6 +1,8 @@
 import datetime
+from collections.abc import Iterable
 
 import httpx
+from more_itertools import always_iterable
 
 from pycalendar_api.exceptions import CalendarAPIParamError
 from pycalendar_api.models import Holiday, HolidayCheckResult
@@ -18,6 +20,15 @@ class HolidaysResource(BaseMixin):
         super().__init__(client, endpoints=ENDPOINTS)
 
     def year(self, year: int, *, holiday_type: CalHolidayType=None) -> list[Holiday]:
+        """Get the holidays of a year
+
+        Args:
+            year (int): the Year
+            holiday_type (`CalHolidayType`): Optional filter on holiday type. See `CalHolidayType`
+
+        Returns:
+            list[Holiday]: Ordered list of holidays of one year
+        """
         key = 'year'
         qp = {}
         pms = {'year': year}
@@ -31,9 +42,18 @@ class HolidaysResource(BaseMixin):
         rv = [Holiday.from_json(d) for d in data]
         return rv
 
-    def years(self, years: list[int], *, holiday_type: CalHolidayType=None) -> list[Holiday]:
+    def years(self, years: Iterable[int], *, holiday_type: CalHolidayType=None) -> list[Holiday]:
+        """Get the holidays of many years
+
+        Args:
+            year (Iterable[int]): Iterable of years as int
+            holiday_type (`CalHolidayType`): Optional filter on holiday type. See `CalHolidayType`
+
+        Returns:
+            list[Holiday]: Ordered list of holidays spanning many years
+        """
         key = 'years'
-        pms = {'years': years}
+        pms = {'years': list(always_iterable(years))}
         if holiday_type:
             pms['holiday_type'] = holiday_type
 
@@ -44,6 +64,14 @@ class HolidaysResource(BaseMixin):
         return rv
 
     def is_holiday(self, date: datetime.date) -> HolidayCheckResult:
+        """Verify if the provided date is a Holiday. If True, also returns the description of that Holiday and its type.
+
+        Args:
+            date (datetime.date): A date
+
+        Returns:
+            HolidayCheckResult: Result of the verification
+        """
         key = 'is-holiday'
         pms = {'date': date}
         url = self.endpoint_by_operation(key)

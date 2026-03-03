@@ -45,6 +45,21 @@ class CalSpan:
     def from_json(cls, data: dict, **kwargs) -> "CalSpan":
         return cls(**data)
 
+    @property
+    def key(self) -> str:
+        """A Unique key to identify the span. Takes the form of {year}-{span}{span-number}.
+
+        i.e: "2025-Q3", 2025-S1, 2025-M8
+        """
+        rv = str(self.year)
+        if self.semester:
+            return rv + f"-S{self.semester}"
+        if self.quarter:
+            return rv + f"-Q{self.quarter}"
+        if self.month:
+            return rv + f"-M{self.month}"
+        return rv
+
 
 @dataclass
 class NextDate:

@@ -2,35 +2,13 @@
 name = "pycalendar_api"
 requires-python = ">=3.12.0"
 readme = "README.md"
-version = "1.0.0"
-# dynamic = ["version"]
-description = "Client de Calendar API"
-keywords = ["SETUPTOOLS", "CALENDAR-API", "API", "CALENDAR", "MOROCCO"]
-authors = [
-  {name = "Unravel Designs", email = "ud@unraveldesigns.ma"},
-]
-maintainers = [
-  {name = "Marouane FAKIR", email = "mfakir@unraveldesigns.ma"},
-  {name = "Unravel Designs", email = "ud@unraveldesigns.ma"},
-]
-
-classifiers = [
-  # Indicate who your project is intended for
-  "Intended Audience :: Developpers :: Morocco :: UnravelDesigns",
-  "Topic :: Software Development :: API Client",
-  # Pick your license as you wish
-  "License :: MIT",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.14",
-  "Programming Language :: Python :: 3 :: Only",
-]
-
+# version = "1.0.0"
+dynamic = ["version"]
+description = "Python client of Calendar API"
 dependencies = [
   'httpx',
   'httpx[cli]',
   'more_itertools',
-  'pyparsing',
   'python-dateutil',
   'sortedcollections',
   'sortedcontainers',
@@ -38,40 +16,39 @@ dependencies = [
 ]
 
 [build-system]
-# requires = ["setuptools>=69.0.3", "wheel", "setuptools_scm>=8"]
-requires = ["setuptools>=69.0.3", "wheel"]
+requires = ["setuptools>=69.0.3", "wheel", "setuptools_scm>=8"]
+# requires = ["setuptools>=69.0.3", "wheel"]
 
-# [tool.setuptools_scm]
-# write_to = "flint/__version__.py"
+[tool.setuptools_scm]
+write_to = "pycalendar_api/__version__.py"
 
 [tool.setuptools]
 packages = ["pycalendar_api"]
-include-package-data = true
-
-# [tool.setuptools.packages.find]
-# include = ["flint*"]
-# exclude = ["flint*testing*", "flint*test*"]
-# namespaces = false
+include-package-data = false
 
 [project.optional-dependencies]
 dev = [
+  "build",
+  "twine",
   "ptpython",
   "pyinstrument",
   "python-lsp-server[all]",
-]
-test = [
+  "ruff>=0.14.8",
+  "mkdocs<2.0.0",
+  "mkdocs-material[imaging]<=9.8.0",
+  "pymdown-extensions",
+  "mkdocs-gen-files",
+  "mkdocs-git-revision-date-localized-plugin",
+  "mkdocs-literate-nav",
+  "mkdocs-minify-plugin",
+  "mkdocstrings[python]",
   "pytest",
   "pytest-sugar",
 ]
-docs = [
-  'mkdocs',
-  'mkdocs-material',
-  'pymdown-extensions',
-]
 
 [project.urls]
-"API-Spec" = "https://atlas-market.ma/documentation"
-"Homepage" = "https://gitlab.com/ud-labs/py-calendar-api"
+"API-Spec" = "https://calendar-api.ma/api/v1/docs"
+"Homepage" = "https://calendar-api.ma"
 "Bug Reports" = "https://gitlab.com/ud-labs/py-calendar-api"
 "Source" = "https://gitlab.com/ud-labs/py-calendar-api"
 
@@ -80,21 +57,8 @@ line-length = 120
 
 [tool.ruff.lint]
 select = [
-  "A",
-  "B",
-  "C4",
-  "E",
-  "F",
-  "G",
-  "I",
-  "LOG",
-  "N",
-  "NPY",
-  "PT",
-  "Q",
-  "SIM",
-  "UP",
-  "W",
+  "A", "B", "C4", "E", "F", "G", "I", "LOG",
+  "N", "NPY", "PT", "Q", "SIM", "UP", "W",
 ]
 ignore = ["C401", "E111", "E114", "E117", "E501", "B904", "Q000", "Q001", "Q002", "Q003", "UP007", "G004"]
 fixable = ["ALL"]
@@ -106,3 +70,29 @@ unfixable = []
 [tool.ruff.format]
 docstring-code-format = true
 preview = true
+
+keywords = ["SETUPTOOLS", "CALENDAR API", "API CLIENT", "CALENDAR", "HOLIDAYS", "MOROCCO"]
+authors = [
+  {name = "Marouane FAKIR", email = "mfakir@unraveldesigns.ma"},
+  {name = "Unravel Designs", email = "ud@unraveldesigns.ma"},
+]
+maintainers = [
+  {name = "Marouane FAKIR", email = "mfakir@unraveldesigns.ma"},
+  {name = "Unravel Designs", email = "ud@unraveldesigns.ma"},
+]
+
+classifiers = [
+  # Indicate who your project is intended for
+  "License :: GPL",
+  "Intended Audience :: Developpers",
+  "Intended Audience :: Developpers :: Data Engineers",
+  "Intended Audience :: Analysts",
+  "Topic :: Software Development :: Calendar API",
+  "Topic :: Software Development :: API Client",
+  "Topic :: Software Development :: Holidays",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]

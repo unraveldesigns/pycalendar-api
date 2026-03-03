@@ -15,13 +15,11 @@ class BaseMixin:
     """Base Mixin qui expose les méthodes d'interaction avec les ressources API d'Atlas Market
 
     Attributes:
-        resource_name (str): Nom de la resource
-        resource_key (str): Nom du path param d'identification d'un API resource
-        model_type (ModelT): Classe de désérialisation de la structure de retour
+        resource_name (str): Resource canonical name
+        model_type (ModelT): Default model class of an endpoint
+        endpoints (dict): A mapping of operation keys and endpoint URLS. Each operation has a unique key in the dict
     """
-
     resource_name: str = _UNSET
-    resource_key: str = _UNSET
     model_type: ModelT = _UNSET
     endpoints: dict = _UNSET
 
@@ -34,6 +32,31 @@ class BaseMixin:
             msg = f"Définir endpoints de la ressource {self.resource_name}. {self.endpoints=}"
             raise CalendarAPIClientError(msg)
 
+    def endpoint_by_operation(self, method: str) -> str:
+        """Retrieve the endpoint URL from the deined method key in URLS (self.endpoints)
+        the key is in the form of {self.resource_name}:{method}.
+
+        Args:
+            method (str): Operation key
+
+        Returns:
+            str: Endpoint URL
+
+        Raises:
+            CalendarAPIParamError: Method not defined
+        """
+        try:
+            return self.endpoints[self._endpoint_key(method)]
+        except KeyError as err:
+            msg = f"{method} not defined in self.endpoints de key={err}.\n{self.endpoints=}"
+            raise CalendarAPIParamError(msg)
+
+    def host_url(self) -> str:
+        """Returns the host url from the client. `self.client.base_url` contains the `/api/v1` path to ease the definition of operation keys.
+        """
+        base, path = str(self.client.base_url), self.client.base_url.path
+        return base.removesuffix(path)
+
     def _endpoint_key(self, method: str) -> str:
         """Construit la clé de l'endpoint défini par cette ressource en combinant resource_name et method
 
@@ -44,20 +67,6 @@ class BaseMixin:
             str: `resource_name:method`. ie: emetteurs:one, emetteurs:mapping
         """
         return f"{self.resource_name}:{method}"
-
-    def _url_with_key(self, method: str, key: str) -> str:
-        """Similaire à self._endpoint_key mais formatte l'URL avec resource key.
-        Renseigne les PathParams
-
-        Args:
-            method (str): method one of (one, filter, mapping)
-            key (str): key id de l'entité désirée
-
-        Returns:
-            str: L'URL de la methode formatté avec key id . ie: emetteurs:one, emetteurs:mapping
-        """
-        endpoint = self.endpoints[f"{self.resource_name}:{method}"]
-        return endpoint.format(**{self.resource_key: key})
 
     def _struct_model(self, model_dict: dict, *, extra_dict: dict=None, model_type=None, **kwargs) -> ModelT:
         """Méthode construction du `model_type` depuis la réponse json.
@@ -89,18 +98,6 @@ class BaseMixin:
         except (AttributeError, TypeError):
             msg = f"Erreur lors de la contruction du modèle {model_type}\nreçu: {d=}"
             raise CalendarAPIStructError(msg)
-
-    def endpoint_by_operation(self, method: str) -> str:
-        try:
-            return self.endpoints[self._endpoint_key(method)]
-        except KeyError as err:
-            msg = f"{method} ne correspond à aucun endpoint de key={err}.\n{self.endpoints=}"
-            raise CalendarAPIParamError(msg)
-
-    def host_url(self) -> str:
-        """Extrait l'URL de l'instance depuis self.client.base_url. Similaire à ApiConfig.host_url()"""
-        base, path = str(self.client.base_url), self.client.base_url.path
-        return base.removesuffix(path)
 
     @staticmethod
     def json_from_response_or_raise(response: Response, *, error_key: str = "detail") -> dict:

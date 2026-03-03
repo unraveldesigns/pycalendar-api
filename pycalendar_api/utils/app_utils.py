@@ -7,42 +7,6 @@ from dateutil import parser
 class UtilsError(Exception):
     """Exception de base des fonctions du module Utils"""
 
-mail_compiler = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
-
-
-def check_mail(mail: str, *, re_compiler: re.Pattern=mail_compiler) -> str:
-    """Valide une adresse mail en se basant sur les structures et formes les plus utilisées.
-
-    !! Dernière ligne de défense, Les mails doivent être validés avant!!
-
-    Returns:
-        str: Le mail s'il est validé, sinon raises ValueError
-
-    Raises:
-        UtilsError: Si l'adresse mail ne respecte pas le format adéquat.
-    """
-    compiler = re_compiler or mail_compiler
-    if compiler.fullmatch(mail) is not None:
-        return mail
-
-    raise UtilsError("Fournir un mail valide. reçu: {value}")
-
-
-def to_percent(value: float, decimals: int=3) -> float:
-    """Transforme un float en pourcentage arrondi à `decimals` => round(value * 100, decimals)
-
-    Args:
-        value (float): Valeur à multiplier par 100
-        decimals (int, 3): Le nombre de chiffres après la virgule
-
-    Returns:
-        float: round(Valeur * 100, decimals)
-    """
-    if decimals in (None, 0):
-        return value * 100
-
-    return round(value * 100, decimals)
-
 
 def to_date(value: str|None) -> dt.date:
     """Retourne une date depuis un string, format dd/mm/yyyy ou dd-mm-yyyy ou dd.mm.yyyy"""

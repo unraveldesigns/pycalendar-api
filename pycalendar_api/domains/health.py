@@ -14,6 +14,11 @@ class HealthsResource(BaseMixin):
         super().__init__(client, endpoints=ENDPOINTS)
 
     def api(self) -> ApiHealth:
+        """Check the health of the API. Serves as a heartbeat for integrations.
+
+        Returns:
+            ApiHealth: Health Status of the API
+        """
         key = 'api'
         endpoint = self.endpoint_by_operation(key)
         url = self.host_url() + endpoint
