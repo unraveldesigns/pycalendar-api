@@ -26,8 +26,8 @@ maintainers = [
 classifiers = [
   # Indicate who your project is intended for
   "License :: OSI Approved :: GNU General Public License (GPL)",
-  "Intended Audience :: Developpers",
-  "Intended Audience :: Developpers :: Data Engineers",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Developers :: Data Engineers",
   "Intended Audience :: Financial and Insurance Industry",
   "Intended Audience :: Information Technology",
   "Programming Language :: Python :: 3",
