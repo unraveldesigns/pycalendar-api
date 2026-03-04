@@ -14,8 +14,6 @@ stages:
 - publish
 
 variables:
-  TWINE_USERNAME: gitlab-ci-token
-  TWINE_PASSWORD: $CI_JOB_TOKEN
   SECRET_DETECTION_ENABLED: 'true'
 
 include:
@@ -35,12 +33,17 @@ build-job:
   artifacts:
     paths:
       - dist
+  only:
+    - tags
 
 # ====== Gitlab ========
 publish-gitlab:
   stage: publish
   dependencies:
     - build-job
+  variables:
+    TWINE_USERNAME: gitlab-ci-token
+    TWINE_PASSWORD: $CI_JOB_TOKEN
   script:
     - pip install twine
     - twine upload --verbose --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
@@ -50,6 +53,8 @@ publish-gitlab:
 # ====== PYPI ========
 publish-pypi:
   stage: publish
+  environment:
+    name: pypi
   dependencies:
     - build-job
   id_tokens:
