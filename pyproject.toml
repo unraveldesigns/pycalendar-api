@@ -25,18 +25,23 @@ maintainers = [
 ]
 classifiers = [
   # Indicate who your project is intended for
-  "License :: GPL",
+  "License :: OSI Approved :: GNU General Public License (GPL)",
   "Intended Audience :: Developpers",
   "Intended Audience :: Developpers :: Data Engineers",
-  "Intended Audience :: Analysts",
-  "Topic :: Software Development :: Calendar API",
-  "Topic :: Software Development :: API Client",
-  "Topic :: Software Development :: Holidays",
+  "Intended Audience :: Financial and Insurance Industry",
+  "Intended Audience :: Information Technology",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
+  "Topic :: Office/Business",
+  "Topic :: Office/Business :: Scheduling",
+  "Topic :: Office/Business :: Scheduling :: Holidays",
+  "Topic :: Software Development :: User Interfaces",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Software Development :: Calendar API",
 ]
 
 [build-system]
