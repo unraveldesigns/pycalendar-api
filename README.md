@@ -1,11 +1,18 @@
 # Calendar API Client
 
-A python 3.12+ client for the calendar-api API of Moroccan holidays and business days
+[![Latest Release](https://gitlab.com/ud-labs/py-calendar-api/-/badges/release.svg)](https://gitlab.com/ud-labs/py-calendar-api/-/releases)
+
+A Python 3.12+ client for [Calendar API](https://calendar-api.ma)
+
+Easy registration to the service [Calendar API](https://calendar-api.ma/console/register)
+
+Documentation: [Know more about the client and the service](https://docs.calendar-api.ma)
+
 
 ## Installation
 
 ```bash
-pip install pycalendar-api --index-url https://gitlab.com/api/v4/projects/79644191/packages/pypi/simple
+pip install pycalendar-api
 ```
 
 ## Quickstart

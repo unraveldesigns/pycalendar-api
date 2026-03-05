@@ -12,7 +12,7 @@ _UNSET = type("_UNSET", (object,), {})()
 
 
 class BaseMixin:
-    """Base Mixin qui expose les méthodes d'interaction avec les ressources API d'Atlas Market
+    """Mixin Base class for resource-interaction with Calendar API.
 
     Attributes:
         resource_name (str): Resource canonical name
@@ -29,7 +29,7 @@ class BaseMixin:
             self.endpoints = endpoints
 
         if self.endpoints is _UNSET:
-            msg = f"Définir endpoints de la ressource {self.resource_name}. {self.endpoints=}"
+            msg = f"endpoint not defined for the resource {self.resource_name}. {self.endpoints=}"
             raise CalendarAPIClientError(msg)
 
     def endpoint_by_operation(self, method: str) -> str:
@@ -69,18 +69,14 @@ class BaseMixin:
         return f"{self.resource_name}:{method}"
 
     def _struct_model(self, model_dict: dict, *, extra_dict: dict=None, model_type=None, **kwargs) -> ModelT:
-        """Méthode construction du `model_type` depuis la réponse json.
-        `model_type` représente la classe principale du domaine (Indiceref, EmetteurRef, OPCRef, ...)
-
-        `extra_dict` permet d'injecter des variables ou valeurs supplémentaires en mettant à jour model_dict. Les clés dupliquées seront écrasées.
+        """Build the model object from the response.
 
         Args:
-            model_dict (dict): json dict de la réponse HTTP
-            extra_dict (dict, optional): permet d'injecter des variables ou valeurs supplémentaires en mettant à jour model_dict. Les clés dupliquées seront écrasées.
-            **kwargs: for subclassing
+            model_dict (dict): Json payload of the response
+            extra_dict (dict, optional): Allows to inject values not present in the response. duplicate keys are overridden.
 
         Returns:
-            ModelT: Instance du modèle cls.model_type
+            ModelT: Model class used for deserialization
         """
         extra_dict = extra_dict or {}
         d = {**model_dict, **extra_dict}
@@ -96,23 +92,22 @@ class BaseMixin:
 
             return self.model_type(**d)
         except (AttributeError, TypeError):
-            msg = f"Erreur lors de la contruction du modèle {model_type}\nreçu: {d=}"
+            msg = f"Error while instanciating {model_type}\nGot: {d=}"
             raise CalendarAPIStructError(msg)
 
     @staticmethod
     def json_from_response_or_raise(response: Response, *, error_key: str = "detail") -> dict:
-        """Fonction utilitaire d'extraction du json depuis la réponse.
-        Si le code de la réponse est >= 400, raises CalendarAPIClientError
+        """Extract the json payload from the Response.
 
         Args:
-            response (Response): Reponse HTTPX
-            error_key (str, 'detail'): Champs du message d'erreur
+            response (Response): httpx Response
+            error_key (str, 'detail'): Error key name in the Json body
 
         Returns:
             dict: Json extracted from the response
 
         Raises:
-            CalendarAPIClientError: Si la réponse est une erreur status_code >= 400
+            CalendarAPIClientError: If the HTTP response status is >= 400
         """
         if response.status_code >= 400:
             raise CalendarAPIClientError(response.json().get(error_key, default_message(response, error_key)))

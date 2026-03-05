@@ -20,41 +20,37 @@ class CalendarApi:
         self.h = HealthsResource(self.client)
 
     def __repr__(self):
-        rv = f"CalendarApi(instance={self.config.api.api_base_url})"
+        rv = f"CalendarApi(base_url={self.config.api.api_base_url})"
         return rv
 
     @classmethod
     def from_env(cls) -> "CalendarApi":
-        """Instancie la configuration depuis les variables d'environnement.
-        S'assurer qu'elles sont définies au niveau de /etc/default/flint sous Ubuntu ou autre
+        """Uses the API-KEY defined in the environment variable
 
         Returns:
-            CalendarApi: Configuration du client
+            CalendarApi: Configured instance
         """
         conf = load_settings(from_env=True)
         return cls(config=conf)
 
     @classmethod
     def from_config_file(cls, fpath: str) -> "CalendarApi":
-        """Charge la configuration depuis un fichier toml respectant la structure attendue.
+        """Load the configuration from the toml file.
 
         Args:
-            fpath (str): Chemin du fichier de configuration `.toml`
+            fpath (str): Configuration path
 
         Returns:
-            CalendarApi: Instance configurée selon le fichier renseigné.
-
-        Raises:
-            CalendarAPIClientError: Si `strict=True` et que le fichier de configuration n'existe pas!
+            CalendarApi: Configured instance
         """
         conf = Settings.from_config_file(fpath)
         return cls(config=conf)
 
     def openapi_schema(self, fpath: Path|str) -> Path:
-        """Télécharge le schéma OpenAPI actuel depuis le serveur.
+        """Download the Openapi schema from `calendar-api.ma`
 
         Args:
-            fpath (Path | str): Chemin du fichier
+            fpath (Path | str): Path to save the file
         """
         return self.config.openapi_schema(fpath)
 

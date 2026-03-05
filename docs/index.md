@@ -6,7 +6,6 @@
 </figure>
 
 [![Latest Release](https://gitlab.com/ud-labs/py-calendar-api/-/badges/release.svg)](https://gitlab.com/ud-labs/py-calendar-api/-/releases)
-[![pipeline status](https://gitlab.com/ud-labs/py-calendar-api/badges/main/pipeline.svg)](https://gitlab.com/ud-labs/py-calendar-api/-/commits/main)
 
 ## Présentation
 

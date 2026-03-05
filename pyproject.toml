@@ -25,6 +25,8 @@ maintainers = [
 ]
 classifiers = [
   # Indicate who your project is intended for
+  "Development Status :: 4 - Beta",
+  "Operating System :: OS Independent",
   "License :: OSI Approved :: GNU General Public License (GPL)",
   "Intended Audience :: Developers",
   "Intended Audience :: Financial and Insurance Industry",
@@ -73,8 +75,9 @@ dev = [
 ]
 
 [project.urls]
-"API-Spec" = "https://calendar-api.ma/api/v1/docs"
 "Homepage" = "https://calendar-api.ma"
+"Documentation" = "https://docs.calendar-api.ma"
+"API-Spec" = "https://calendar-api.ma/api/v1/docs"
 "Bug Reports" = "https://gitlab.com/ud-labs/py-calendar-api"
 "Source" = "https://gitlab.com/ud-labs/py-calendar-api"
 
