@@ -27,7 +27,7 @@ classifiers = [
   # Indicate who your project is intended for
   "Development Status :: 4 - Beta",
   "Operating System :: OS Independent",
-  "License :: OSI Approved :: GNU General Public License (GPL)",
+  "License :: OSI Approved :: MIT License",
   "Intended Audience :: Developers",
   "Intended Audience :: Financial and Insurance Industry",
   "Intended Audience :: Information Technology",

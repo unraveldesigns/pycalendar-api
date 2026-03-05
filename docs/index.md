@@ -27,7 +27,7 @@ Le client offre les avantages suivants:
 
 ## Fonctionnalités
 
-
+Spans: Calcule l'intervalle composé des date de début et date de fin d'une période donnée
 ## Continuer à explorer
 
 <div class="grid cards" markdown>
