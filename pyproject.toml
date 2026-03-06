@@ -6,11 +6,8 @@ readme = "README.md"
 dynamic = ["version"]
 description = "Python client of Calendar API"
 dependencies = [
-  'httpx',
-  'httpx[cli]',
-  'more_itertools',
+  'niquests[speedups]',
   'python-dateutil',
-  'sortedcollections',
   'sortedcontainers',
   'tomlkit',
 ]
@@ -24,7 +21,6 @@ maintainers = [
   {name = "Unravel Designs", email = "ud@unraveldesigns.ma"},
 ]
 classifiers = [
-  # Indicate who your project is intended for
   "Development Status :: 4 - Beta",
   "Operating System :: OS Independent",
   "License :: OSI Approved :: MIT License",
@@ -45,7 +41,6 @@ classifiers = [
 
 [build-system]
 requires = ["setuptools>=77.0.3", "wheel", "setuptools_scm>=8"]
-# requires = ["setuptools>=69.0.3", "wheel"]
 
 [tool.setuptools_scm]
 write_to = "pycalendar_api/__version__.py"

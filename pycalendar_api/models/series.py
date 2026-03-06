@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import date
 
-from sortedcollections import SortedSet
+from sortedcontainers import SortedSet
 
 from pycalendar_api.properties import CalFreq
 from pycalendar_api.utils import to_date

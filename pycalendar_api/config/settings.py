@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field, fields
 from typing import ClassVar
 
-import httpx
+import niquests
 
 from pycalendar_api.utils import get_http_client, get_http_client_async
 
@@ -16,7 +16,6 @@ class ApiConfig(ConfigSection):
     host: str = "https://calendar-api.ma"
     api_endpoint: str = "/api/v1"
     api_key: str = "UNDEFINED"
-    timezone: str = CONSTANTS.TIMEZONE
 
     @property
     def api_base_url(self) -> str:
@@ -32,11 +31,11 @@ class ApiConfig(ConfigSection):
 @dataclass
 class HTTPClientConfig(ConfigSection):
     """Application Instance configuration. Litestar"""
-    section: ClassVar = 'http-client'
+    section: ClassVar = 'http_client'
     default_encoding: str = "utf-8"
     timeout: int = 10
-    retries: int = 2
-    verify: bool = False
+    retries: int = 3
+    verify: bool = True
     follow_redirects: bool = True
 
 
@@ -54,7 +53,7 @@ class Settings(ConfigSection):
                 instance = f.type(**attr)
                 setattr(self, f.name, instance)
 
-    def create_http_client(self) -> httpx.Client:
+    def create_http_client(self) -> niquests.Session:
         return get_http_client(
             base_url=self.api.api_base_url,
             headers=self.api.api_key_header,
@@ -65,7 +64,7 @@ class Settings(ConfigSection):
             follow_redirects=self.http_client.follow_redirects,
         )
 
-    def create_http_client_async(self) -> httpx.AsyncClient:
+    def create_http_client_async(self) -> niquests.AsyncSession:
         return get_http_client_async(
             base_url=self.api.api_base_url,
             headers=self.api.api_key_header,

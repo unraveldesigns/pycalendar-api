@@ -13,10 +13,7 @@ BASE_DIR = HERE.parent
 class CONSTANTS:
     # --- config
     NONE_VALUE = "UNDEFINED"
-    PREFIX_ENV_VARS = "CAL_"
-    LANG = "en"
-    PAYS_LOCAL = "MA"
-    TIMEZONE = "Africa/Casablanca"
+    PREFIX_ENV_VARS = "PYCAL_"
     BASE_DIR = BASE_DIR
     # --- loader
     APP_MODULE_NAME = "pycalendar_api"

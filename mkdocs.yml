@@ -10,7 +10,7 @@ site_description: >-
   religieuses et exceptionnelles. Intégrez le dans vos calendriers, appilcations ou data pipelines pour les data engineers.
 
 theme:
-  language: fr
+  language: en
   name: material
   logo: assets/img/logo.webp
   favicon: assets/img/favicon.ico

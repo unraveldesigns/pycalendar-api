@@ -13,7 +13,7 @@ Documentation: [Learn more about the client and Calendar API](https://docs.calen
 - Fully typed
 - Automatic conversion of Json responses to Python Objects
 - **dataclasses** based models (Standard library)
-- Http client based on **HTTPX**
+- Modern Http client based on [Niquests](https://niquests.readthedocs.io/en/latest/index.html)
 - Advanced `.toml` file configuration
 - Minimal dependencies
 

@@ -1,4 +1,4 @@
-import httpx
+import niquests
 
 from pycalendar_api.models import ApiHealth
 
@@ -10,7 +10,7 @@ class HealthsResource(BaseMixin):
 
     resource_name = "health"
 
-    def __init__(self, client: httpx.Client):
+    def __init__(self, client: niquests.Session):
         super().__init__(client, endpoints=ENDPOINTS)
 
     def api(self) -> ApiHealth:

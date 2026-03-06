@@ -1,10 +1,8 @@
 import datetime
 from collections.abc import Iterable
 
-import httpx
-from more_itertools import always_iterable
+import niquests
 
-from pycalendar_api.exceptions import CalendarAPIParamError
 from pycalendar_api.models import Holiday, HolidayCheckResult
 from pycalendar_api.properties import CalHolidayType
 
@@ -16,7 +14,7 @@ class HolidaysResource(BaseMixin):
 
     resource_name = "holidays"
 
-    def __init__(self, client: httpx.Client):
+    def __init__(self, client: niquests.Session):
         super().__init__(client, endpoints=ENDPOINTS)
 
     def year(self, year: int, *, holiday_type: CalHolidayType=None) -> list[Holiday]:
@@ -53,7 +51,8 @@ class HolidaysResource(BaseMixin):
             list[Holiday]: Ordered list of holidays spanning many years
         """
         key = 'years'
-        pms = {'years': list(always_iterable(years))}
+        years = years if isinstance(years, Iterable) else [years]
+        pms = {'years': years}
         if holiday_type:
             pms['holiday_type'] = holiday_type
 

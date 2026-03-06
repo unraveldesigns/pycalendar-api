@@ -1,7 +1,8 @@
 import datetime
 import logging
+from functools import partial
 
-import httpx
+import niquests
 
 logger = logging.getLogger(__name__)
 
@@ -10,14 +11,14 @@ def add_timestamp(request):
     request.headers["x-timestamp"] = str(datetime.datetime.now().isoformat())
     return request
 
+def set_encoding(response: niquests.Response, default_encoding: str='utf-8'):
+    response.encoding = default_encoding
+    return response
 
 def build_client_headers(headers: dict=None):
     head = headers or {}
     rv = {
-        "User-Agent": "python/httpx",
-        "X-App-Agent": "AMK Client V 1.60",
-        "X-HTTPX-VERSION": f"{httpx.__version__}",
-        "X-CLIENT": "py-calendar-api",
+        "X-CLIENT": "pycalendar-api",
     }
     rv.update(head)
     return rv
@@ -25,8 +26,8 @@ def build_client_headers(headers: dict=None):
 
 def get_http_client(
     base_url: str=None, headers: dict=None, cookies: dict=None,
-    default_encoding: str="utf-8", timeout: int=10, retries: int=2, verify: bool=False, follow_redirects: bool=True
-) -> httpx.Client:
+    default_encoding: str="utf-8", timeout: int=10, retries: int=2, verify: bool=True, follow_redirects: bool=True
+) -> niquests.Session:
     """Construit l'engine HTTP des connections
 
     Args:
@@ -36,40 +37,50 @@ def get_http_client(
     Returns:
         httpx.Client: Client configuré
     """
-    timeout = httpx.Timeout(timeout=timeout, read=timeout*5)
-    transport = httpx.HTTPTransport(retries=retries, verify=verify)
-    clt = httpx.Client(
+    timeout = niquests.TimeoutConfiguration(connect=timeout, read=timeout*5)
+    clt = niquests.Session(
         headers=build_client_headers(headers=headers),
-        base_url=base_url, default_encoding=default_encoding,
-        event_hooks={"request": [add_timestamp]},
-        cookies=cookies, timeout=timeout, transport=transport, follow_redirects=follow_redirects
+        retries=retries,
+        base_url=base_url,
+        timeout=timeout,
     )
-    msg = f"Sync Client instancié {clt}"
+    clt.hooks['request'] = [add_timestamp]
+    clt.hooks['response'] = [partial(set_encoding, default_encoding=default_encoding)]
+    clt.cookies.update(cookies or {})
+    clt.verify = verify
+    if follow_redirects is False:
+        clt.max_redirects = 0
+    msg = f"Sync Session instanciated {clt}"
     logger.info(msg)
     return clt
 
 
 def get_http_client_async(
     base_url: str=None, headers: dict=None, cookies: dict=None,
-    default_encoding: str="utf-8", timeout: int=10, retries: int=2, verify: bool=False, follow_redirects: bool=True
-) -> httpx.AsyncClient:
-    """Construit l'Async engine HTTP des connections
+    default_encoding: str="utf-8", timeout: int=10, retries: int=2, verify: bool=True, follow_redirects: bool=True
+) -> niquests.AsyncSession:
+    """Construit l'Async HTTPEngine des connections
 
     Args:
         headers (dict, optional): Headers qui seront mergé avec ceux par défaut
         base_url (str, optional): URL de base des connexions successives
 
     Returns:
-        httpx.AsyncClient: AsyncClient configuré
+        httpx.Client: Client configuré
     """
-    timeout = httpx.Timeout(timeout=timeout, read=timeout*5)
-    transport = httpx.AsyncHTTPTransport(retries=retries, verify=verify)
-    clt = httpx.AsyncClient(
+    timeout = niquests.TimeoutConfiguration(connect=timeout, read=timeout*5)
+    clt = niquests.AsyncSession(
         headers=build_client_headers(headers=headers),
-        base_url=base_url, default_encoding=default_encoding,
-        event_hooks={"request": [add_timestamp]},
-        cookies=cookies, timeout=timeout, transport=transport, follow_redirects=follow_redirects
+        retries=retries,
+        base_url=base_url,
+        timeout=timeout,
     )
-    msg = f"Async Client instancié {clt}"
+    clt.hooks['request'] = [add_timestamp]
+    clt.hooks['response'] = [partial(set_encoding, default_encoding=default_encoding)]
+    clt.cookies.update(cookies or {})
+    clt.verify = verify
+    if follow_redirects is False:
+        clt.max_redirects = 0
+    msg = f"Async Session instanciated {clt}"
     logger.info(msg)
     return clt

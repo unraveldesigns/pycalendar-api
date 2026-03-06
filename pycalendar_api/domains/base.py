@@ -1,4 +1,4 @@
-from httpx import Client, Response
+from niquests import Response, Session
 
 from pycalendar_api.exceptions import (
     CalendarAPIClientError,
@@ -23,8 +23,8 @@ class BaseMixin:
     model_type: ModelT = _UNSET
     endpoints: dict = _UNSET
 
-    def __init__(self, client: Client, endpoints: dict = None, **kwargs):
-        self.client: Client = client
+    def __init__(self, client: Session, endpoints: dict = None, **kwargs):
+        self.client: Session = client
         if endpoints:
             self.endpoints = endpoints
 
@@ -54,8 +54,8 @@ class BaseMixin:
     def host_url(self) -> str:
         """Returns the host url from the client. `self.client.base_url` contains the `/api/v1` path to ease the definition of operation keys.
         """
-        base, path = str(self.client.base_url), self.client.base_url.path
-        return base.removesuffix(path)
+        from pycalendar_api.config import Settings
+        return Settings().api.host
 
     def _endpoint_key(self, method: str) -> str:
         """Construit la clé de l'endpoint défini par cette ressource en combinant resource_name et method

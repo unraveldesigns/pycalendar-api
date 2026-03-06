@@ -18,7 +18,7 @@ pycalendar_api/__version__.py
 *.pyc
 *.sqlite
 *.sqlite3
-# *.sublime-project
+*.sublime-project
 
 *.sublime-workspace
 *.vscode
