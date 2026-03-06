@@ -14,7 +14,7 @@ dependencies = [
   'sortedcontainers',
   'tomlkit',
 ]
-keywords = ["SETUPTOOLS", "CALENDAR API", "API CLIENT", "CALENDAR", "HOLIDAYS", "MOROCCO"]
+keywords = ["CALENDAR API", "API CLIENT", "CALENDAR", "HOLIDAYS", "MOROCCO"]
 authors = [
   {name = "Marouane FAKIR", email = "mfakir@unraveldesigns.ma"},
   {name = "Unravel Designs", email = "ud@unraveldesigns.ma"},
@@ -44,7 +44,7 @@ classifiers = [
 ]
 
 [build-system]
-requires = ["setuptools>=69.0.3", "wheel", "setuptools_scm>=8"]
+requires = ["setuptools>=77.0.3", "wheel", "setuptools_scm>=8"]
 # requires = ["setuptools>=69.0.3", "wheel"]
 
 [tool.setuptools_scm]
@@ -52,7 +52,7 @@ write_to = "pycalendar_api/__version__.py"
 
 [tool.setuptools]
 packages = ["pycalendar_api"]
-include-package-data = false
+include-package-data = true
 
 [project.optional-dependencies]
 dev = [

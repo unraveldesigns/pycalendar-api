@@ -11,7 +11,7 @@ var/
 *.egg
 # Python egg-files
 *.egg-info/
-calendar_api/__version__.py
+pycalendar_api/__version__.py
 
 # Files
 *.db
