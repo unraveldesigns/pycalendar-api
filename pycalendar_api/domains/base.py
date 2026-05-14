@@ -1,4 +1,4 @@
-from niquests import Response, Session
+from httpxyz import Client, Response
 
 from pycalendar_api.exceptions import (
     CalendarAPIClientError,
@@ -23,8 +23,8 @@ class BaseMixin:
     model_type: ModelT = _UNSET
     endpoints: dict = _UNSET
 
-    def __init__(self, client: Session, endpoints: dict = None, **kwargs):
-        self.client: Session = client
+    def __init__(self, client: Client, endpoints: dict = None, **kwargs):
+        self.client: Client = client
         if endpoints:
             self.endpoints = endpoints
 

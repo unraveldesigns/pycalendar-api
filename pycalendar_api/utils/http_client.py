@@ -1,8 +1,7 @@
 import datetime
 import logging
-from functools import partial
 
-import niquests
+import httpxyz
 
 from .app_utils import get_app_version
 
@@ -13,7 +12,7 @@ def add_timestamp(request):
     request.headers["x-timestamp"] = str(datetime.datetime.now().isoformat())
     return request
 
-def set_encoding(response: niquests.Response, default_encoding: str='utf-8'):
+def set_encoding(response: httpxyz.Response, default_encoding: str='utf-8'):
     response.encoding = default_encoding
     return response
 
@@ -31,7 +30,7 @@ def build_client_headers(headers: dict=None):
 def get_http_client(
     base_url: str=None, headers: dict=None, cookies: dict=None,
     default_encoding: str="utf-8", timeout: int=10, retries: int=2, verify: bool=True, follow_redirects: bool=True
-) -> niquests.Session:
+) -> httpxyz.Client:
     """Construit l'engine HTTP des connections
 
     Args:
@@ -39,52 +38,38 @@ def get_http_client(
         base_url (str, optional): URL de base des connexions successives
 
     Returns:
-        niquests.Session: Client configuré
+        httpxyz.Client: Client configuré
     """
-    timeout = niquests.TimeoutConfiguration(connect=timeout, read=timeout*5)
-    clt = niquests.Session(
+    timeout = httpxyz.Timeout(timeout=timeout, read=timeout * 5)
+    transport = httpxyz.HTTPTransport(retries=retries, verify=verify)
+    clt = httpxyz.Client(
         headers=build_client_headers(headers=headers),
-        retries=retries,
-        base_url=base_url,
-        timeout=timeout,
+        base_url=base_url, default_encoding=default_encoding,
+        event_hooks={"request": [add_timestamp]},
+        cookies=cookies, timeout=timeout, transport=transport, follow_redirects=follow_redirects
     )
-    clt.hooks['request'] = [add_timestamp]
-    clt.hooks['response'] = [partial(set_encoding, default_encoding=default_encoding)]
-    clt.cookies.update(cookies or {})
-    clt.verify = verify
-    if follow_redirects is False:
-        clt.max_redirects = 0
-    msg = f"Sync Session instanciated {clt}"
+    msg = f"Sync Client instanciated {clt}"
     logger.info(msg)
     return clt
 
-
 def get_http_client_async(
-    base_url: str=None, headers: dict=None, cookies: dict=None,
-    default_encoding: str="utf-8", timeout: int=10, retries: int=2, verify: bool=True, follow_redirects: bool=True
-) -> niquests.AsyncSession:
-    """Construit l'Async HTTPEngine des connections
+    base_url: str="", headers: dict=None, cookies: dict=None,
+    default_encoding: str="utf-8", timeout: int=10, retries: int=2, verify=False, follow_redirects=True
+) -> httpxyz.AsyncClient:
+    """Construit l'Async engine HTTP des connections
 
     Args:
         headers (dict, optional): Headers qui seront mergé avec ceux par défaut
         base_url (str, optional): URL de base des connexions successives
 
     Returns:
-        niquests.AsyncSession: Async Client configuré
+        httpxyz.AsyncClient: AsyncClient configuré
     """
-    timeout = niquests.TimeoutConfiguration(connect=timeout, read=timeout*5)
-    clt = niquests.AsyncSession(
+    timeout = httpxyz.Timeout(timeout=timeout, read=timeout * 5)
+    transport = httpxyz.AsyncHTTPTransport(retries=retries, verify=verify)
+    return httpxyz.AsyncClient(
         headers=build_client_headers(headers=headers),
-        retries=retries,
-        base_url=base_url,
-        timeout=timeout,
+        base_url=base_url, default_encoding=default_encoding,
+        event_hooks={"request": [add_timestamp]},
+        cookies=cookies, timeout=timeout, transport=transport, follow_redirects=follow_redirects
     )
-    clt.hooks['request'] = [add_timestamp]
-    clt.hooks['response'] = [partial(set_encoding, default_encoding=default_encoding)]
-    clt.cookies.update(cookies or {})
-    clt.verify = verify
-    if follow_redirects is False:
-        clt.max_redirects = 0
-    msg = f"Async Session instanciated {clt}"
-    logger.info(msg)
-    return clt

@@ -11,11 +11,11 @@ Documentation: [Learn more about the client and Calendar API](https://docs.calen
 ##### Features
 
 - Fully typed
+- Minimal dependencies
 - Automatic conversion of Json responses to Python Objects
 - **dataclasses** based models (Standard library)
-- Modern Http client based on [Niquests](https://niquests.readthedocs.io/en/latest/index.html)
-- Advanced `.toml` file configuration
-- Minimal dependencies
+- Modern Http client based on [httpxyz](https://httpxyz.org)
+- `.toml` file configuration for advanced usage (Timeout, proxy, certs, ...)
 
 ## Presentation
 
@@ -30,7 +30,7 @@ for needs such as:
 
 ## Quickstart
 
-Install from Pypi
+Install from PyPi
 
 ```bash
 pip install pycalendar-api

@@ -10,11 +10,12 @@
 ##### Features
 
 - Fully typed
+- Minimal dependencies
 - Automatic conversion of Json responses to Python Objects
 - **dataclasses** based models (Standard library)
-- Modern Http client based on [Niquests](https://niquests.readthedocs.io/en/latest/index.html)
-- Advanced `.toml` file configuration
-- Minimal dependencies
+- Modern Http client based on [httpxyz](https://httpxyz.org)
+- `.toml` file configuration for advanced usage (Timeout, proxy, certs, ...)
+
 
 ## Presentation
 
@@ -29,7 +30,7 @@ for needs such as:
 
 ## Quickstart
 
-Install from Pypi
+Install from PyPi
 
 ```bash
 pip install pycalendar-api
@@ -37,7 +38,7 @@ pip install pycalendar-api
 
 Ensure that you are registered, if not, you can register for free [Here](https://calendar-api.ma/console/register)
 
-Instanciate the API Client by providing one the active APIKeys from your console
+Instanciate the API Client by providing one the active API Keys from your console
 
 ```python
 from pycalendar_api import CalendarApi, to_date  # Util function for date creation
