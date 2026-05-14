@@ -4,6 +4,8 @@ from functools import partial
 
 import niquests
 
+from .app_utils import get_app_version
+
 logger = logging.getLogger(__name__)
 
 
@@ -17,8 +19,10 @@ def set_encoding(response: niquests.Response, default_encoding: str='utf-8'):
 
 def build_client_headers(headers: dict=None):
     head = headers or {}
+    app_version = get_app_version()
     rv = {
         "X-CLIENT": "pycalendar-api",
+        "X-CLIENT-VERSION": app_version['version_id']
     }
     rv.update(head)
     return rv
@@ -35,7 +39,7 @@ def get_http_client(
         base_url (str, optional): URL de base des connexions successives
 
     Returns:
-        httpx.Client: Client configuré
+        niquests.Session: Client configuré
     """
     timeout = niquests.TimeoutConfiguration(connect=timeout, read=timeout*5)
     clt = niquests.Session(
@@ -66,7 +70,7 @@ def get_http_client_async(
         base_url (str, optional): URL de base des connexions successives
 
     Returns:
-        httpx.Client: Client configuré
+        niquests.AsyncSession: Async Client configuré
     """
     timeout = niquests.TimeoutConfiguration(connect=timeout, read=timeout*5)
     clt = niquests.AsyncSession(

@@ -48,6 +48,18 @@ from pycalendar_api import CalendarApi, to_date  # Util function for date creati
 ApiHealth(api_status="UP", appname="calendar-api", timestamp=datetime.datetime.now())
 ```
 
+#### Using the environment variable `PYCALENDAR_APIKEY`
+
+```python
+# Ensure that the environment variable is defined
+# export PYCALENDAR_APIKEY = YOUR_API_KEY
+from pycalendar_api import CalendarApi, to_date  # Util function for date creation
+
+>>> api = CalendarApi.from_env()
+>>> print(api.health())
+ApiHealth(api_status="UP", appname="calendar-api", timestamp=datetime.datetime.now())
+```
+
 ### Holidays API
 
 Holidays domain of Calendar API.

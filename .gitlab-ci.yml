@@ -33,6 +33,7 @@ build-job:
   artifacts:
     paths:
       - dist
+    expire_in: 1 day
   only:
     - tags
 

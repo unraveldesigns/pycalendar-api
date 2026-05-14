@@ -34,6 +34,11 @@ class DateSeries:
             if not self.max_date:
                 self.max_date = to_date(max(self.serie))
 
+        if isinstance(self.min_date, str):
+            self.min_date = to_date(self.min_date)
+        if isinstance(self.max_date, str):
+            self.max_date = to_date(self.max_date)
+
     def __getitem__(self, index: int):
         return self.serie.__getitem__(index)
 

@@ -7,6 +7,27 @@ class UtilsError(Exception):
     """Exception de base des fonctions du module Utils"""
 
 
+def get_app_version() -> dict:
+    """Construit le metadata de l'application en cours
+    """
+    try:
+        # importlib.metadata.version('calendar_api')
+        from pycalendar_api import __version__ as v
+        commit_id = v.commit_id
+        version_id = v.version
+        version_tuple = v.version_tuple
+    except ImportError:
+        commit_id = None
+        version_id = 'dev'
+        version_tuple = ()
+    rv = {
+        'commit_id': commit_id,
+        'version_id': version_id,
+        'version_tuple': version_tuple,
+    }
+    return rv
+
+
 def to_date(value: str|None) -> dt.date:
     """Retourne une date depuis un string, format dd/mm/yyyy ou dd-mm-yyyy ou dd.mm.yyyy"""
     if isinstance(value, dt.datetime):

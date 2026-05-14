@@ -6,7 +6,7 @@ readme = "README.md"
 dynamic = ["version"]
 description = "Python client of Calendar API"
 dependencies = [
-  'niquests[speedups]',
+  'httpxyz',
   'python-dateutil',
   'sortedcontainers',
   'tomlkit',
