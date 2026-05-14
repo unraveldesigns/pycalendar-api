@@ -7,6 +7,7 @@ ERROR_STATUS = 'NOT RESPONDING - Check your connection'
 
 @dataclass
 class ApiHealth:
+    """Chack the status of the API. It doesn't need an APIKEY"""
     api_status: str = None
     appname: str = CONSTANTS.APPLICATION_NAME
     timestamp: datetime.datetime = field(default_factory=datetime.datetime.now, init=False)

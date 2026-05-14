@@ -9,6 +9,8 @@ from pycalendar_api.utils import to_date
 
 @dataclass
 class DateSeries:
+    """Represents a collection of dates with its metadata"""
+
     ref: str
     min_date: date = None
     max_date: date = None

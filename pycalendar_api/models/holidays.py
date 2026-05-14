@@ -7,6 +7,7 @@ from pycalendar_api.utils import to_date
 
 @dataclass
 class Holiday:
+    """Represents a Holiday"""
     description: str = None
     day: int = None
     month: int = None
@@ -30,6 +31,7 @@ class Holiday:
 
 @dataclass
 class HolidayCheckResult:
+    """The result of is-holiday check. If the date is a Holiday, holds also its description, type and status"""
     date: datetime.date = None
     is_holiday: bool = None
     description: str = None

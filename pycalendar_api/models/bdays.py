@@ -7,6 +7,10 @@ from pycalendar_api.utils import to_date
 
 @dataclass
 class DaysCount:
+    """Counts the number of business days between 2 dates.
+
+    start_date and end_date are open business days
+    """
     start_date: datetime.date = None
     end_date: datetime.date = None
     count: int = None
@@ -27,6 +31,10 @@ class DaysCount:
 
 @dataclass
 class CalSpan:
+    """Represents the span of a period delimited by the interval start/end date (open day inclusive)
+
+    i.e: `2026-S1` = CalSpan(year=2026, semester=1, start_date=2026-01-02, end_date=2026-06-30)
+    """
     start_date: datetime.date = None
     end_date: datetime.date = None
     year: int = None
@@ -63,6 +71,7 @@ class CalSpan:
 
 @dataclass
 class NextDate:
+    """Holds the requested `date` and the `next_date`"""
     date: datetime.date
     next_date: datetime.date
 
@@ -79,6 +88,7 @@ class NextDate:
 
 @dataclass
 class PreviousDate:
+    """Holds the requested `date` and the `previous_date`"""
     date: datetime.date
     previous_date: datetime.date
 

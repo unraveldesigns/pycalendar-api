@@ -213,10 +213,4 @@ If you find any bug or issue please let us know by:
 - Filing an issue in the repository: [Project Repository](https://gitlab.com/ud-labs/py-calendar-api/-/issues)
 - Fill the [Contact Form](https://calendar-api.ma/contacts.html)
 
-## Continuer à explorer
-
-<div class="grid cards" markdown>
-
-</div>
-
 <script defer src="https://odometer.calendar-api.ma/script.js" data-website-id="3b3a9e56-7e3a-4c20-b6b4-fce013629789" data-tag="docs"></script>
