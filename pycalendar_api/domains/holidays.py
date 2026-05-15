@@ -37,7 +37,7 @@ class HolidaysResource(BaseMixin):
         url = endpoint.format(**pms)
         resp = self.client.get(url, params=qp)
         data = self.json_from_response_or_raise(resp)
-        rv = [Holiday.from_json(d) for d in data]
+        rv = [self._struct_model(d, model_type=Holiday) for d in data]
         return rv
 
     def years(self, years: Iterable[int], *, holiday_type: CalHolidayType=None) -> list[Holiday]:
@@ -59,7 +59,7 @@ class HolidaysResource(BaseMixin):
         url = self.endpoint_by_operation(key)
         resp = self.client.get(url, params=pms)
         data = self.json_from_response_or_raise(resp)
-        rv = [Holiday.from_json(d) for d in data]
+        rv = [self._struct_model(d, model_type=Holiday) for d in data]
         return rv
 
     def is_holiday(self, date: datetime.date) -> HolidayCheckResult:

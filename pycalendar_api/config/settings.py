@@ -11,7 +11,7 @@ from .constants import CONSTANTS
 
 @dataclass
 class ApiConfig(ConfigSection):
-    """Application Instance configuration. Litestar"""
+    """API server config section"""
     section: ClassVar = 'api'
     host: str = "https://calendar-api.ma"
     api_endpoint: str = "/api/v1"
@@ -30,7 +30,7 @@ class ApiConfig(ConfigSection):
 
 @dataclass
 class HTTPClientConfig(ConfigSection):
-    """Application Instance configuration. Litestar"""
+    """HTTP client config section"""
     section: ClassVar = 'http_client'
     default_encoding: str = "utf-8"
     timeout: int = 10
@@ -41,6 +41,7 @@ class HTTPClientConfig(ConfigSection):
 
 @dataclass
 class Settings(ConfigSection):
+    """pycalendar_api client config file"""
     section: ClassVar = 'root'
     api: ApiConfig = field(default_factory=ApiConfig)
     http_client: HTTPClientConfig = field(default_factory=HTTPClientConfig)
