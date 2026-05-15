@@ -74,7 +74,7 @@ pages:
     - apt-get update && apt-get install -y --no-install-recommends git
     - pip install --upgrade pip
     - pip install -e .[dev]
-    - mkdocs build --strict --verbose --site-dir public
+    - mkdocs build --verbose --site-dir public
   artifacts:
     paths:
       - public

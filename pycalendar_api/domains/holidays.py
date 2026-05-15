@@ -44,7 +44,7 @@ class HolidaysResource(BaseMixin):
         """Get the holidays of many years
 
         Args:
-            year (Iterable[int]): Iterable of years as int
+            years (Iterable[int]): Iterable of years as int
             holiday_type (`CalHolidayType`): Optional filter on holiday type. See `CalHolidayType`
 
         Returns:
