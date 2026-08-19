@@ -219,6 +219,18 @@ Consider using polling (Every Hour) for religious holidays which are estimated.
 |   **Official**  | The Holiday is Official                                   |
 |  **Estimated**  | Religious Holidays are estimated before the moon sighting |
 
+
+## Project related links:
+
+**Website**: [Calendar API](https://calendar-api.ma)
+
+**Schema**: [OpenAPI 3.1](https://calendar-api.ma/schema/openapi.json)
+
+**API Reference**: [Public](https://calendar-api.ma/api/v1/docs)
+
+**Check Uptime**: [Health Endpoint](https://calendar-api.ma/api/v1/docs)
+
+
 ## Support
 
 If you find any bug or issue please let us know by:
