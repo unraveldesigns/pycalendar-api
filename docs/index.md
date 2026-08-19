@@ -1,34 +1,40 @@
-# Calendar API
+# PyCalendar API: Moroccan Holidays & Calendar Client for Python
 
 <figure markdown="span">
     ![Calendar API Logo](assets/img/logo.webp){ width="350" }
-  <figcaption>JSON API du Calendrier Marocain</figcaption>
+  <figcaption>Calendar • API • Holidays • Morocco</figcaption>
 </figure>
 
-[![PyPI](https://img.shields.io/pypi/v/pycalendar-api)](https://pypi.org/project/pycalendar-api/)
-
 [![Latest Release](https://gitlab.com/ud-labs/py-calendar-api/-/badges/release.svg)](https://gitlab.com/ud-labs/py-calendar-api/-/releases)
+[![PyPI version](https://img.shields.io/pypi/v/pycalendar-api.svg)](https://pypi.org/project/pycalendar-api/)
+[![Python versions](https://img.shields.io/pypi/pyversions/pycalendar-api.svg)](https://pypi.org/project/pycalendar-api/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/pycalendar-api.svg)](https://pypi.org/project/pycalendar-api/)
+[![License](https://img.shields.io/pypi/l/pycalendar-api.svg)](https://pypi.org/project/pycalendar-api/)
 
-##### Features
+**PyCalendar API** is a lightweight Python client wrapper for the [Calendar-API.ma](https://calendar-api.ma) platform.
+It allows developers to programmatically fetch **Moroccan public holidays**, track **Hijri calendar events**,
+and compute local business day data.
 
-- Fully typed
-- Minimal dependencies
-- Automatic conversion of Json responses to Python Objects
+Easy and free registration to [Calendar API](https://calendar-api.ma/console/register)
+
+Documentation: [Learn more about the client and Calendar API](https://docs.calendar-api.ma)
+
+## Key Features
+
+- **Moroccan Public Holidays:** Fetches national, religious, and exceptional holidays dynamically.
+- **Dual Calendar Support:** Keeps track of `Religious` and `Exceptional` holidays for calculation and history sanitization.
+- **Business Day Calculations:** Calculates working days, skipping custom weekends and local banking closures.
 - **dataclasses** based models (Standard library)
-- Modern Http client based on [httpxyz](https://httpxyz.org)
+- Automatic conversion of Json responses to Python Objects
+- Fully typed, Minimal dependencies
 - `.toml` file configuration for advanced usage (Timeout, proxy, certs, ...)
 
+## API Reference:
 
-## Presentation
-
-[Calendar API](https://calendar-api.ma) covers the holidays and business days domains while providing to Analysts, developers and businesses a centralized service
-for needs such as:
-
-- Orchestration and Scheduling of tasks or jobs
-- Data analysis: Finding missing dates in a dataset or aligning many datasets
-- Data Quality
-- Integration with a Date-Picker for UI uses. see tutorial in the product page
-- Integration with Airflow by using the advanced configuration of the client pycalendar-api
+- **API Reference**: [Public](https://calendar-api.ma/api/v1/docs)
+- **Schema**: [OpenAPI 3.1](https://calendar-api.ma/schema/openapi.json)
+- **Website**: [Calendar API](https://calendar-api.ma)
+- **Check Uptime**: [Health Endpoint](https://calendar-api.ma/health)
 
 ## Quickstart
 

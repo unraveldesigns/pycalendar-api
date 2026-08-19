@@ -53,7 +53,7 @@ TODO:
 
 ### Refactoring
 
-- Drop `htmx` in favor of `niquests`
+- Drop `httpx` in favor of `niquests`
 
 ## [0.2.1](https://gitlab.com/ud-labs/py-calendar-api/-/releases/0.2.1) - 2026-03-06
 
