@@ -5,6 +5,8 @@
   <figcaption>JSON API du Calendrier Marocain</figcaption>
 </figure>
 
+[![PyPI](https://img.shields.io/pypi/v/pycalendar-api)](https://pypi.org/project/pycalendar-api/)
+
 [![Latest Release](https://gitlab.com/ud-labs/py-calendar-api/-/badges/release.svg)](https://gitlab.com/ud-labs/py-calendar-api/-/releases)
 
 ##### Features
@@ -19,7 +21,7 @@
 
 ## Presentation
 
-[Calendar API](https://calendar-api.ma/console/r/register) covers the holidays and business days domains while providing to Analysts, developers and businesses a centralized service
+[Calendar API](https://calendar-api.ma) covers the holidays and business days domains while providing to Analysts, developers and businesses a centralized service
 for needs such as:
 
 - Orchestration and Scheduling of tasks or jobs
@@ -36,7 +38,7 @@ Install from PyPi
 pip install pycalendar-api
 ```
 
-Ensure that you are registered, if not, you can register for free [Here](https://calendar-api.ma/console/r/register)
+Ensure that you are registered, if not, you can [Register](https://calendar-api.ma/console/register) for free 
 
 Instanciate the API Client by providing one the active API Keys from your console
 
