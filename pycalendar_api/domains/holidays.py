@@ -1,7 +1,7 @@
 import datetime
 from collections.abc import Iterable
 
-import niquests
+import httpxyz
 
 from pycalendar_api.models import Holiday, HolidayCheckResult
 from pycalendar_api.properties import CalHolidayType
@@ -14,7 +14,7 @@ class HolidaysResource(BaseMixin):
 
     resource_name = "holidays"
 
-    def __init__(self, client: niquests.Session):
+    def __init__(self, client: httpxyz.Client):
         super().__init__(client, endpoints=ENDPOINTS)
 
     def year(self, year: int, *, holiday_type: CalHolidayType=None) -> list[Holiday]:

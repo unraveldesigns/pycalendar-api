@@ -1,43 +1,44 @@
-# PyCalendar API: Moroccan Holidays & Calendar Client for Python
+# PyCalendar API: Official Python Client for Moroccan Holidays & Business Days
 
-[![Latest Release](https://gitlab.com/ud-labs/py-calendar-api/-/badges/release.svg)](https://gitlab.com/ud-labs/py-calendar-api/-/releases)
+[![Release](https://gitlab.com/ud-labs/py-calendar-api/-/badges/release.svg)](https://gitlab.com/ud-labs/py-calendar-api/-/releases)
 [![PyPI version](https://img.shields.io/pypi/v/pycalendar-api.svg)](https://pypi.org/project/pycalendar-api/)
 [![Python versions](https://img.shields.io/pypi/pyversions/pycalendar-api.svg)](https://pypi.org/project/pycalendar-api/)
 [![PyPI downloads](https://img.shields.io/pypi/dm/pycalendar-api.svg)](https://pypi.org/project/pycalendar-api/)
 [![License](https://img.shields.io/pypi/l/pycalendar-api.svg)](https://pypi.org/project/pycalendar-api/)
 
-**PyCalendar API** is a lightweight Python client wrapper for the [Calendar-API.ma](https://calendar-api.ma) platform.
-It allows developers to programmatically fetch **Moroccan public holidays**, track **Hijri calendar events**,
-and compute local business day data.
+**PyCalendar API** is the **official**, fully-typed Python client wrapper for the [Calendar-API.ma](https://calendar-api.ma) platform. It allows developers to programmatically fetch Moroccan public holidays, track Hijri calendar events, and compute local business day data with minimal dependencies.
 
-Easy and free registration to [Calendar API](https://calendar-api.ma/console/register)
+🔗 **Quick Links**: [📝 Register for Free](https://calendar-api.ma/console/register) | [📚 Documentation](https://docs.calendar-api.ma) | [⚡ Live API Docs](https://calendar-api.ma/api/v1/docs) | [🟢 Health Check](https://calendar-api.ma/health)
 
-Documentation: [Learn more about the client and Calendar API](https://docs.calendar-api.ma)
+## 📑 Table of Contents
 
-## Key Features
+- [Key Features](#-key-features)
+- [Installation](#-installation)
+- [Quick Start](#-quick-start)
+  - [Authentication](#authentication)
+  - [Holidays API](#holidays-api)
+  - [Business Days API](#business-days-api)
+  - [Period Spans](#period-spans)
+- [Enum Properties](#-enum-properties)
+- [Support](#-support)
 
-- **Moroccan Public Holidays:** Fetches national, religious, and exceptional holidays dynamically.
-- **Dual Calendar Support:** Keeps track of `Religious` and `Exceptional` holidays for calculation and history sanitization.
-- **Business Day Calculations:** Calculates working days, skipping custom weekends and local banking closures.
-- **dataclasses** based models (Standard library)
-- Automatic conversion of Json responses to Python Objects
-- Fully typed, Minimal dependencies
-- `.toml` file configuration for advanced usage (Timeout, proxy, certs, ...)
+## ✨ Key Features
 
-## API Reference:
+- **Moroccan Public Holidays**: Dynamically fetch national, religious, and exceptional holidays.
+- **Dual Calendar Support**: Track `Religious` and `Exceptional` holidays for accurate calculation and history sanitization.
+- **Business Day Calculations**: Calculate working days, skipping custom weekends and local banking closures.
+- **Modern Python Design**: Built with `dataclasses`, fully typed, and automatic JSON-to-Python object conversion.
+- **Minimal Dependencies**: Lightweight and fast.
+- **Advanced Configuration**: Supports `.toml` files for timeout, proxy, and certificate management.
 
-- **API Reference**: [Public](https://calendar-api.ma/api/v1/docs)
-- **Schema**: [OpenAPI 3.1](https://calendar-api.ma/schema/openapi.json)
-- **Website**: [Calendar API](https://calendar-api.ma)
-- **Check Uptime**: [Health Endpoint](https://calendar-api.ma/health)
+## 📦 Installation
 
-## Quick Start & Usage Examples
-
-Install from PyPi
-
+Install the latest version from PyPI:
 ```bash
 pip install pycalendar-api
 ```
+
+## Quick Start & Usage Examples
 
 Ensure that you are registered, if not, you can [Register](https://calendar-api.ma/console/register) for free 
 
@@ -63,7 +64,7 @@ from pycalendar_api import CalendarApi, to_date  # Util function for date creati
 ApiHealth(api_status="UP", appname="calendar-api", timestamp=datetime.datetime.now())
 ```
 
-### Holidays API
+### 🌙 Holidays API
 
 Holidays domain of Calendar API.
 
@@ -107,7 +108,7 @@ HolidayCheckResult(
 ]
 ```
 
-### Business Days API
+### 🏢 Business Days API
 
 Business days domain of Calendar API.
 
@@ -194,11 +195,11 @@ CalSpan(start_date=datetime.date(2025, 6, 30), end_date=datetime.date(2025, 9, 3
 CalSpan(start_date=datetime.date(2025, 6, 30), end_date=datetime.date(2025, 7, 31), year=2025, semester=None, quarter=None, month=7, country_code='MA')
 ```
 
-## Enum properties
+## 🏷️ Enum Properties
 
 Those properties are present in the Response objects and are used as query parameters.
 
-- #### Holiday Type (StrEnum)
+### 🗂️ Holiday Type (`StrEnum`)
 
 A Holiday has one of those types
 
@@ -208,7 +209,7 @@ A Holiday has one of those types
 |   **Religious**   | The date is a Religious Holiday (Check the status if it's Confirmed or not) |
 |  **Exceptional**  | The date is an exceptional or bridge Holiday                                |
 
-- #### HolidayStatus (StrEnum)
+### 🌕 Holiday Status (`StrEnum`)
 
 Those properties concern the religious holidays which are `Estimated` before the moon sighting,
 once confirmed their status change to `Official`.
@@ -220,11 +221,10 @@ Consider using polling (Every Hour) for religious holidays which are estimated.
 |   **Official**  | The Holiday is Official                                   |
 |  **Estimated**  | Religious Holidays are estimated before the moon sighting |
 
+## 🛠️ Support
 
-## Support
+If you encounter any bugs or have questions, we are here to help:
 
-If you find any bug or issue please let us know by:
-
-- Mailing us at: [Support](mailto:support@calendar-api.ma)
-- Filing an issue in the repository: [Project Repository](https://gitlab.com/ud-labs/py-calendar-api/-/issues)
-- Fill the [Contact Form](https://calendar-api.ma/contacts.html)
+- ✉️ **Email Support**: [support@calendar-api.ma](mailto:support@calendar-api.ma)
+- 🐛 **Issue Tracker**: [GitLab Repository Issues](https://gitlab.com/ud-labs/py-calendar-api/-/issues)
+- 📝 **Contact Form**: [calendar-api.ma/contacts.html](https://calendar-api.ma/contacts.html)

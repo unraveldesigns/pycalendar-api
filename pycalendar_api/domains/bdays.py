@@ -1,6 +1,6 @@
 import datetime
 
-import niquests
+import httpxyz
 
 from pycalendar_api.exceptions import CalendarAPIParamError
 from pycalendar_api.models import CalSpan, DateSeries, DaysCount, NextDate, PreviousDate
@@ -14,7 +14,7 @@ class BDaysResource(BaseMixin):
 
     resource_name = "bdays"
 
-    def __init__(self, client: niquests.Session):
+    def __init__(self, client: httpxyz.Client):
         super().__init__(client, endpoints=ENDPOINTS)
 
     def between(self, start: datetime.date, end: datetime.date) -> DateSeries:

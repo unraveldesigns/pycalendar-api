@@ -11,38 +11,31 @@
 [![PyPI downloads](https://img.shields.io/pypi/dm/pycalendar-api.svg)](https://pypi.org/project/pycalendar-api/)
 [![License](https://img.shields.io/pypi/l/pycalendar-api.svg)](https://pypi.org/project/pycalendar-api/)
 
-**PyCalendar API** is a lightweight Python client wrapper for the [Calendar-API.ma](https://calendar-api.ma) platform.
+**PyCalendar API** is the **official** Python client wrapper for the [Calendar-API.ma](https://calendar-api.ma) platform.
 It allows developers to programmatically fetch **Moroccan public holidays**, track **Hijri calendar events**,
 and compute local business day data.
 
 Easy and free registration to [Calendar API](https://calendar-api.ma/console/register)
 
-Documentation: [Learn more about the client and Calendar API](https://docs.calendar-api.ma)
+🔗 **Quick Links**: [📝 Register for Free](https://calendar-api.ma/console/register) | [⚡ Live API Docs](https://calendar-api.ma/api/v1/docs) | [💻 Schema OpenAPI 3.1 (JSON)](https://calendar-api.ma/schema/openapi.json) | [🟢 Health Check](https://calendar-api.ma/health)
 
-## Key Features
+## ✨ Key Features
 
-- **Moroccan Public Holidays:** Fetches national, religious, and exceptional holidays dynamically.
-- **Dual Calendar Support:** Keeps track of `Religious` and `Exceptional` holidays for calculation and history sanitization.
-- **Business Day Calculations:** Calculates working days, skipping custom weekends and local banking closures.
-- **dataclasses** based models (Standard library)
-- Automatic conversion of Json responses to Python Objects
-- Fully typed, Minimal dependencies
-- `.toml` file configuration for advanced usage (Timeout, proxy, certs, ...)
+- **Moroccan Public Holidays**: Dynamically fetch national, religious, and exceptional holidays.
+- **Dual Calendar Support**: Track `Religious` and `Exceptional` holidays for accurate calculation and history sanitization.
+- **Business Day Calculations**: Calculate working days, skipping custom weekends and local banking closures.
+- **Modern Python Design**: Built with `dataclasses`, fully typed, and automatic JSON-to-Python object conversion.
+- **Minimal Dependencies**: Lightweight and fast.
+- **Advanced Configuration**: Supports `.toml` files for timeout, proxy, and certificate management.
 
-## API Reference:
+## 📦 Installation
 
-- **API Reference**: [Public](https://calendar-api.ma/api/v1/docs)
-- **Schema**: [OpenAPI 3.1](https://calendar-api.ma/schema/openapi.json)
-- **Website**: [Calendar API](https://calendar-api.ma)
-- **Check Uptime**: [Health Endpoint](https://calendar-api.ma/health)
-
-## Quickstart
-
-Install from PyPi
-
+Install the latest version from PyPI:
 ```bash
 pip install pycalendar-api
 ```
+
+## Quick Start & Usage Examples
 
 Ensure that you are registered, if not, you can [Register](https://calendar-api.ma/console/register) for free 
 
@@ -56,7 +49,7 @@ from pycalendar_api import CalendarApi, to_date  # Util function for date creati
 ApiHealth(api_status="UP", appname="calendar-api", timestamp=datetime.datetime.now())
 ```
 
-### Holidays API
+### 🌙 Holidays API
 
 Holidays domain of Calendar API.
 
@@ -100,7 +93,7 @@ HolidayCheckResult(
 ]
 ```
 
-### Business Days API
+### 🏢 Business Days API
 
 Business days domain of Calendar API.
 
@@ -187,48 +180,37 @@ CalSpan(start_date=datetime.date(2025, 6, 30), end_date=datetime.date(2025, 9, 3
 CalSpan(start_date=datetime.date(2025, 6, 30), end_date=datetime.date(2025, 7, 31), year=2025, semester=None, quarter=None, month=7, country_code='MA')
 ```
 
-## Enum properties
+## 🏷️ Enum Properties
 
-Those properties are present in the Response objects and are used as query parameters.
+These properties are present in the response objects and can be used as query parameters.
 
-- #### Holiday Type (StrEnum)
+### 🗂️ Holiday Type (`StrEnum`)
 
-A Holiday has one of those types
+A holiday is categorized into one of the following types:
 
-|       Value       | Description                                                                 |
-| :---------------: | --------------------------------------------------------------------------- |
-|    **National**   | The date is a national Holiday                                              |
-|   **Religious**   | The date is a Religious Holiday (Check the status if it's Confirmed or not) |
-|  **Exceptional**  | The date is an exceptional or bridge Holiday                                |
+| Value           | Description                                                                   |
+| --------------- | ----------------------------------------------------------------------------- |
+| **National**    | The date is a national holiday.                                               |
+| **Religious**   | The date is a religious holiday (check the status to see if it is confirmed). |
+| **Exceptional** | The date is an exceptional or bridge holiday.                                 |
 
-- #### HolidayStatus (StrEnum)
+### 🌕 Holiday Status (`StrEnum`)
 
-Those properties concern the religious holidays which are `Estimated` before the moon sighting,
-once confirmed their status change to `Official`.
+These statuses apply to religious holidays, which are `Estimated` before moon sighting and change to `Official` once confirmed. 
 
-Consider using polling (Every Hour) for religious holidays which are estimated.
+> 💡 **Tip:** Consider hourly polling for religious holidays marked as `Estimated`.
 
-|      Value      | Description                                               |
-| :-------------: | --------------------------------------------------------- |
-|   **Official**  | The Holiday is Official                                   |
-|  **Estimated**  | Religious Holidays are estimated before the moon sighting |
+| Value         | Description                                                  |
+| ------------- | ------------------------------------------------------------ |
+| **Official**  | The holiday is officially confirmed.                         |
+| **Estimated** | The religious holiday is pending moon sighting confirmation. |
 
-## Project related links:
+## 🛠️ Support
 
-**Website**: [Calendar API](https://calendar-api.ma)
+If you encounter any bugs or have questions, we are here to help:
 
-**Schema**: [OpenAPI 3.1](https://calendar-api.ma/schema/openapi.json)
-
-**API Reference**: [Public](https://calendar-api.ma/api/v1/docs)
-
-**Check Uptime**: [Health Endpoint](https://calendar-api.ma/health)
-
-## Support
-
-If you find any bug or issue please let us know by:
-
-- Mailing us at: [Support](mailto:support@calendar-api.ma)
-- Filing an issue in the repository: [Project Repository](https://gitlab.com/ud-labs/py-calendar-api/-/issues)
-- Fill the [Contact Form](https://calendar-api.ma/contacts.html)
+- ✉️ **Email Support**: [support@calendar-api.ma](mailto:support@calendar-api.ma)
+- 🐛 **Issue Tracker**: [GitLab Repository Issues](https://gitlab.com/ud-labs/py-calendar-api/-/issues)
+- 📝 **Contact Form**: [calendar-api.ma/contacts.html](https://calendar-api.ma/contacts.html)
 
 <script defer src="https://odometer.calendar-api.ma/script.js" data-website-id="3b3a9e56-7e3a-4c20-b6b4-fce013629789" data-tag="docs"></script>
