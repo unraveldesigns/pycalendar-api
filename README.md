@@ -228,7 +228,7 @@ Consider using polling (Every Hour) for religious holidays which are estimated.
 
 **API Reference**: [Public](https://calendar-api.ma/api/v1/docs)
 
-**Check Uptime**: [Health Endpoint](https://calendar-api.ma/api/v1/docs)
+**Check Uptime**: [Health Endpoint](https://calendar-api.ma/health)
 
 
 ## Support
