@@ -78,13 +78,11 @@ dev = [
 
 [tool.ruff]
 line-length = 120
+exclude = ["__init__.py"]
 
 [tool.ruff.lint]
-select = [
-  "A", "B", "C4", "E", "F", "G", "I", "LOG",
-  "N", "NPY", "PT", "Q", "SIM", "UP", "W",
-]
-ignore = ["C401", "E111", "E114", "E117", "E501", "B904", "Q000", "Q001", "Q002", "Q003", "UP007", "G004"]
+select = ["A", "B", "C4", "E", "F", "G", "I", "LOG", "N", "NPY", "PT", "Q", "SIM", "UP", "W"]
+ignore = ["C401", "E111", "E114", "E117", "E501", "B904", "Q000", "Q001", "Q002", "Q003", "UP007", "G004", "N818"]
 fixable = ["ALL"]
 unfixable = []
 

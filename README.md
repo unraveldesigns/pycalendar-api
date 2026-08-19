@@ -4,7 +4,7 @@
 
 A Python 3.12+ client for [Calendar API](https://calendar-api.ma)
 
-Easy and free registration to [Calendar API](https://calendar-api.ma/console/register)
+Easy and free registration to [Calendar API](https://calendar-api.ma/console/r/register)
 
 Documentation: [Learn more about the client and Calendar API](https://docs.calendar-api.ma)
 
@@ -19,7 +19,7 @@ Documentation: [Learn more about the client and Calendar API](https://docs.calen
 
 ## Presentation
 
-[Calendar API](https://calendar-api.ma/console/register) covers the holidays and business days domains while providing to Analysts, developers and businesses a centralized service
+[Calendar API](https://calendar-api.ma/console/r/register) covers the holidays and business days domains while providing to Analysts, developers and businesses a centralized service
 for needs such as:
 
 - Orchestration and Scheduling of tasks or jobs
@@ -36,7 +36,7 @@ Install from PyPi
 pip install pycalendar-api
 ```
 
-Ensure that you are registered, if not, you can register for free [Here](https://calendar-api.ma/console/register)
+Ensure that you are registered, if not, you can register for free [Here](https://calendar-api.ma/console/r/register)
 
 Instanciate the API Client by providing one the active APIKeys from your console
 

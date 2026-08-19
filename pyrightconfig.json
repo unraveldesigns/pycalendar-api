@@ -1,0 +1,16 @@
+{
+  "venvPath": "/Users/mero/miniforge3/envs",
+  "venv": "dev",
+  "pythonVersion": "3.13",
+  "typeCheckingMode": "off",
+  "reportMissingImports": "error",
+  "reportMissingModuleSource": "warning",
+  "reportUndefinedVariable": "error",
+  "reportAttributeAccessIssue": "error",
+  "reportIndexIssue": "error",
+  "reportCallIssue": "error",
+  "reportOperatorIssue": "error",
+  "reportReturnType": "none",
+  "reportArgumentType": "none",
+  "reportUnreachable": "information"
+}

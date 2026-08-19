@@ -19,7 +19,7 @@
 
 ## Presentation
 
-[Calendar API](https://calendar-api.ma/console/register) covers the holidays and business days domains while providing to Analysts, developers and businesses a centralized service
+[Calendar API](https://calendar-api.ma/console/r/register) covers the holidays and business days domains while providing to Analysts, developers and businesses a centralized service
 for needs such as:
 
 - Orchestration and Scheduling of tasks or jobs
@@ -36,7 +36,7 @@ Install from PyPi
 pip install pycalendar-api
 ```
 
-Ensure that you are registered, if not, you can register for free [Here](https://calendar-api.ma/console/register)
+Ensure that you are registered, if not, you can register for free [Here](https://calendar-api.ma/console/r/register)
 
 Instanciate the API Client by providing one the active API Keys from your console
 

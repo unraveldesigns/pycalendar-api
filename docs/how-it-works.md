@@ -10,7 +10,7 @@ Once confirmed, the status of the `HolidayStatus` changes to `HolidayStatus.OFFI
 
 National holidays are defined in the gregorian calendar.
 
-## King days
+## Kingdom days
 
 Since Morocco is a Kingdom (Royaume du Maroc), there are holidays which depend on the birthday of the current King and the day of his coronation.
 

@@ -4,7 +4,9 @@ site_url: https://docs.calendar-api.ma
 site_author: Marouane FAKIR
 repo_name: py-calendar-api
 repo_url: https://gitlab.com/ud-labs/py-calendar-api
-copyright: Copyright &copy; 2024 - 2026 Unravel Designs
+copyright: >
+  Copyright &copy; 2026 Unravel Designs &nbsp;·&nbsp;
+  <a href="https://calendar-api.ma" rel="noopener">calendar-api.ma</a>
 site_description: >-
   Documentation du service Calendar API. Jours fériés et ouvrables du Maroc, prend en considération les fêtes
   religieuses et exceptionnelles. Intégrez le dans vos calendriers, appilcations ou data pipelines pour les data engineers.

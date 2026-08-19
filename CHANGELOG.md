@@ -5,7 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.5.2](https://gitlab.com/ud-labs/py-calendar-api/-/releases/0.5.2) - 2026-07-17
+
+### Documentation
+
+- Update: Register endpoint URL in the docs.
+- Add link to the main website
+
+## [0.5.1](https://gitlab.com/ud-labs/py-calendar-api/-/releases/0.5.1) - 2026-05-15
+
+### Documentation - CI
+
+- fix: MkDocs CI/CD Build remove `--strict` flag: MkDocs-Material generates a warning that blocks the build with `--strict` flag.
+
+## [0.5.0](https://gitlab.com/ud-labs/py-calendar-api/-/releases/0.5.0) - 2026-05-15
+
+### Documentation
+
+- Add: Code reference of classes and functions
 
 ## [0.4.0](https://gitlab.com/ud-labs/py-calendar-api/-/releases/0.4.0) - 2026-05-14
 
