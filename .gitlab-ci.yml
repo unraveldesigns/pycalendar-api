@@ -1,4 +1,4 @@
-image: python:3.12-slim-bullseye
+image: python:3.12-slim-bookworm
 
 default:
   tags:
