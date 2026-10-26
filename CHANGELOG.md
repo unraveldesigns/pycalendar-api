@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Passing `apikey` with a `config` mutated that config (and the cached `load_settings()` result)
 - Non-Json error responses (ie: gateway errors) raised a `JSONDecodeError` instead of `CalendarAPIClientError`
 - `holidays.years("2026")` split the string into characters
+- Responses compressed with brotli or zstd could not be decoded when the optional decoders were not installed: depend on `httpx[brotli,zstd]`
 
 ### Refactoring
 

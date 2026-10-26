@@ -6,7 +6,8 @@ readme = "README.md"
 dynamic = ["version"]
 description = "Python client of Calendar API"
 dependencies = [
-  'httpx',
+  # brotli/zstd: decode every encoding the server may send, whatever Accept-Encoding says
+  'httpx[brotli,zstd]',
   'python-dateutil',
   'sortedcontainers',
   'tomlkit',

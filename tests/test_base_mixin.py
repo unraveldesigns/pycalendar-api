@@ -106,3 +106,22 @@ def test_fetch_one_and_many():
         res = DummyResource(client, endpoints=ENDPOINTS)
         assert res._fetch(ApiCall('/dummy/x', model_type=Dummy)) == Dummy('x')
         assert res._fetch(ApiCall('/dummy', model_type=Dummy, many=True)) == [Dummy('a'), Dummy('b', 2)]
+
+
+@pytest.mark.parametrize("encoding", ['gzip', 'br', 'zstd'])
+def test_decodes_compressed_responses(encoding: str):
+    """The API cache may serve a compressed body whatever the request `Accept-Encoding` is"""
+    import gzip
+    import json
+
+    import brotli
+    import zstandard
+
+    compress = {'gzip': gzip.compress, 'br': brotli.compress, 'zstd': zstandard.ZstdCompressor().compress}[encoding]
+    body = compress(json.dumps({'name': 'a'}).encode())
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, content=body, headers={'Content-Type': 'application/json', 'Content-Encoding': encoding})
+
+    with httpx.Client(base_url="https://example.test/api/v1", transport=httpx.MockTransport(handler)) as client:
+        assert DummyResource(client, endpoints=ENDPOINTS)._fetch(ApiCall('/dummy/a', model_type=Dummy)) == Dummy('a')
