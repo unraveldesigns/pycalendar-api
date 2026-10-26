@@ -19,3 +19,22 @@ In the client side, the domains are represented as Resource adapters
 
 ::: pycalendar_api.domains.bdays.BDaysResource
     :docstring:
+
+::: pycalendar_api.domains.health.HealthsResource
+    :docstring:
+
+## Async resources
+
+`AsyncCalendarApi` uses the async counterparts of the resources above. They share the same requests (`ApiCall`) and the same models.
+
+::: pycalendar_api.domains.base.ApiCall
+    :docstring:
+
+::: pycalendar_api.domains.holidays.AsyncHolidaysResource
+    :docstring:
+
+::: pycalendar_api.domains.bdays.AsyncBDaysResource
+    :docstring:
+
+::: pycalendar_api.domains.health.AsyncHealthsResource
+    :docstring:

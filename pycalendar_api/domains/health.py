@@ -1,17 +1,22 @@
-import httpxyz
-
 from pycalendar_api.models import ApiHealth
 
-from .base import BaseMixin
+from .base import ApiCall, AsyncResourceMixin, BaseMixin, SyncResourceMixin
 from .urls import ENDPOINTS
 
 
-class HealthsResource(BaseMixin):
+class HealthsCalls(BaseMixin):
+    """Builds the `ApiCall` of the Health domain. Shared by the sync and async resources."""
 
     resource_name = "health"
+    endpoints = ENDPOINTS
 
-    def __init__(self, client: httpxyz.Client):
-        super().__init__(client, endpoints=ENDPOINTS)
+    def _api_call(self) -> ApiCall:
+        # The health endpoint is served at the host root, outside of the `/api/v1` base url
+        url = self.host_url() + self.endpoint_by_operation('api')
+        return ApiCall(url, model_type=ApiHealth)
+
+
+class HealthsResource(SyncResourceMixin, HealthsCalls):
 
     def api(self) -> ApiHealth:
         """Check the health of the API. Serves as a heartbeat for integrations.
@@ -19,9 +24,12 @@ class HealthsResource(BaseMixin):
         Returns:
             ApiHealth: Health Status of the API
         """
-        key = 'api'
-        endpoint = self.endpoint_by_operation(key)
-        url = self.host_url() + endpoint
-        resp = self.client.get(url)
-        data = self.json_from_response_or_raise(resp)
-        return self._struct_model(data, model_type=ApiHealth)
+        return self._fetch(self._api_call())
+
+
+class AsyncHealthsResource(AsyncResourceMixin, HealthsCalls):
+    """Async version of `HealthsResource`"""
+
+    async def api(self) -> ApiHealth:
+        """Check the health of the API. See `HealthsResource.api`"""
+        return await self._fetch(self._api_call())

@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field, fields
 from typing import ClassVar
 
-import httpxyz
+import httpx
 
 from pycalendar_api.utils import get_http_client, get_http_client_async
 
@@ -54,8 +54,9 @@ class Settings(ConfigSection):
                 instance = f.type(**attr)
                 setattr(self, f.name, instance)
 
-    def create_http_client(self) -> httpxyz.Client:
+    def create_http_client(self, transport: httpx.BaseTransport=None) -> httpx.Client:
         return get_http_client(
+            transport=transport,
             base_url=self.api.api_base_url,
             headers=self.api.api_key_header,
             default_encoding=self.http_client.default_encoding,
@@ -65,8 +66,9 @@ class Settings(ConfigSection):
             follow_redirects=self.http_client.follow_redirects,
         )
 
-    def create_http_client_async(self) -> httpxyz.AsyncClient:
+    def create_http_client_async(self, transport: httpx.AsyncBaseTransport=None) -> httpx.AsyncClient:
         return get_http_client_async(
+            transport=transport,
             base_url=self.api.api_base_url,
             headers=self.api.api_key_header,
             default_encoding=self.http_client.default_encoding,

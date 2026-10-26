@@ -180,6 +180,25 @@ CalSpan(start_date=datetime.date(2025, 6, 30), end_date=datetime.date(2025, 9, 3
 CalSpan(start_date=datetime.date(2025, 6, 30), end_date=datetime.date(2025, 7, 31), year=2025, semester=None, quarter=None, month=7, country_code='MA')
 ```
 
+### ⚡ Async Client
+
+`AsyncCalendarApi` exposes the same domains and operations as `CalendarApi`, to be awaited.
+
+```python
+import asyncio
+from pycalendar_api import AsyncCalendarApi, to_date
+
+async def main():
+    async with AsyncCalendarApi.from_env() as api:  # or AsyncCalendarApi('YOUR_API_KEY')
+        print(await api.health())
+        next_bday, holidays = await asyncio.gather(
+            api.bdays.next_date(to_date('17/11/2025')),
+            api.holidays.year(2026),
+        )
+
+asyncio.run(main())
+```
+
 ## 🏷️ Enum Properties
 
 These properties are present in the response objects and can be used as query parameters.

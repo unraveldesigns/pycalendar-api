@@ -1,10 +1,10 @@
 import pytest
 
-from pycalendar_api import CalendarApi
+from pycalendar_api import AsyncCalendarApi, CalendarApi
 from pycalendar_api.properties import CalHolidayStatus, CalHolidayType
 from pycalendar_api.utils import to_date
 
-pytestmark = pytest.mark.client
+pytestmark = [pytest.mark.client, pytest.mark.live]
 
 # ---- Holidays ----
 def test_holidays_is_holiday(api_client: CalendarApi):
@@ -37,3 +37,12 @@ def test_holidays_years(api_client: CalendarApi):
     years = 2026, 2027
     res = api_client.holidays.years(years)
     assert isinstance(res, list)
+
+
+@pytest.mark.anyio
+async def test_holidays_async(async_api_client: AsyncCalendarApi):
+    res = await async_api_client.holidays.is_holiday(to_date('14/01/2026'))
+    assert res.is_holiday is True
+
+    holidays = await async_api_client.holidays.years((2026, 2027))
+    assert {h.date.year for h in holidays} == {2026, 2027}

@@ -6,7 +6,7 @@ readme = "README.md"
 dynamic = ["version"]
 description = "Python client of Calendar API"
 dependencies = [
-  'httpxyz',
+  'httpx',
   'python-dateutil',
   'sortedcontainers',
   'tomlkit',
@@ -22,6 +22,7 @@ maintainers = [
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
+  "Framework :: AsyncIO",
   "Operating System :: OS Independent",
   "License :: OSI Approved :: MIT License",
   "Intended Audience :: Developers",
@@ -40,7 +41,8 @@ classifiers = [
 ]
 
 [build-system]
-requires = ["setuptools>=77.0.3", "wheel", "setuptools_scm>=8"]
+requires = ["setuptools>=77.0.3", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
 write_to = "pycalendar_api/__version__.py"
@@ -53,20 +55,20 @@ include-package-data = true
 dev = [
   "build",
   "twine",
-  "ptpython",
-  "pyinstrument",
-  "python-lsp-server[all]",
   "ruff>=0.14.8",
+  "pytest",
+  "pytest-sugar",
+]
+
+docs = [
   "mkdocs<2.0.0",
-  "mkdocs-material[imaging]<=9.8.0",
-  "pymdown-extensions",
   "mkdocs-gen-files",
   "mkdocs-git-revision-date-localized-plugin",
   "mkdocs-literate-nav",
+  "mkdocs-material[imaging]<=9.8.0",
   "mkdocs-minify-plugin",
   "mkdocstrings[python]",
-  "pytest",
-  "pytest-sugar",
+  "pymdown-extensions",
 ]
 
 [project.urls]

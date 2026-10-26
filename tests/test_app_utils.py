@@ -30,7 +30,7 @@ def test_to_int():
 
 def test_to_float():
     arg_to_float = ('4', '-4', '4.2', '-4.2', 4.0, -4.2, None, '0.01', 0.01)
-    float_output = {float(4), float(-4), float(4.2), float(-4.2), None, float(0.01)}
+    float_output = {float(4), float(-4), 4.2, (-4.2), None, 0.01}
     test_float = tuple(to_float(i) in float_output for i in arg_to_float)
     assert all(test_float)
 
@@ -54,7 +54,7 @@ def test_to_bool():
 
     raise_arg = 'ABC'
     with pytest.raises(UtilsError):
-        to_bool(raise_arg)    
+        to_bool(raise_arg)
 
 
 def test_to_date():

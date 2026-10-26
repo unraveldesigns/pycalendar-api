@@ -1,9 +1,9 @@
 import pytest
 
-from pycalendar_api import CalendarApi
+from pycalendar_api import AsyncCalendarApi, CalendarApi
 from pycalendar_api.utils import to_date
 
-pytestmark = pytest.mark.client
+pytestmark = [pytest.mark.client, pytest.mark.live]
 
 
 BDAYS_COUNT_2025 = 247
@@ -58,3 +58,12 @@ def test_bdays_serie(api_client: CalendarApi):
     assert date_serie.min_date == to_date('02/01/2025'), "La date de début doit inclure le premier jour ouvrable qui est le 02/01/2025"
     assert date_serie.nitems == len(date_serie.serie)
     assert date_serie.nitems == BDAYS_COUNT_2025
+
+
+@pytest.mark.anyio
+async def test_bdays_async(async_api_client: AsyncCalendarApi):
+    res = await async_api_client.bdays.next_date(to_date('17/11/2025'))
+    assert res.next_date == to_date('19/11/2025')
+
+    count = await async_api_client.bdays.count(to_date('01/01/2025'), to_date('31/12/2025'))
+    assert count.count == BDAYS_COUNT_2025

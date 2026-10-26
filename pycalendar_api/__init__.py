@@ -19,4 +19,4 @@ from pycalendar_api.utils import (
     to_float,
     to_int,
 )
-from pycalendar_api.api import CalendarApi
+from pycalendar_api.api import AsyncCalendarApi, CalendarApi

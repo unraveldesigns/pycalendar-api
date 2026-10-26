@@ -28,7 +28,7 @@ class CONSTANTS:
 
     # --- endpoints
     HEALTH_ENDPOINT = "/health"
-    OPENAPI_SCHEMA_ENDPOINT = "/schema"
+    OPENAPI_SCHEMA_ENDPOINT = "/schema/openapi.json"
     API_ENDPOINT = "/api/v1"
     AUTH_API_HEADER_KEY = "X-API-KEY"
     # --- Time Units
