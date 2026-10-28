@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.9.0](https://gitlab.com/ud-labs/py-calendar-api/-/releases/0.9.0) - 2026-10-26
+
+### Features
+
+- HTTP options can be passed to `CalendarApi` / `AsyncCalendarApi` (and `from_env()` / `from_config_file()`) as keyword arguments: `CalendarApi(key, proxy=..., timeout=..., verify=...)`. Unknown options raise `TypeError`
+- New `[http_client]` options: `proxy`, `trust_env`, `read_timeout`, `cert`, `cert_key`. `verify` accepts a CA bundle path
+- `client_kwargs`: extra `httpx.Client` / `httpx.AsyncClient` arguments (`limits`, `auth`, `event_hooks`...)
+- Export `HTTPClientConfig` and `HTTPClientOptions`
+
+### Bug Fixes
+
+- The `HTTPS_PROXY` / `HTTP_PROXY` / `NO_PROXY` environment variables were ignored, because the client always set its own transport
+- The `retries` default of `get_http_client` / `get_http_client_async` (2) differed from the configuration (3)
+
+### Documentation
+
+- Document the configuration (proxy, timeouts, certificates) in the README
+
 ## [0.8.0](https://gitlab.com/ud-labs/py-calendar-api/-/releases/0.8.0) - 2026-10-26
 
 ### Features

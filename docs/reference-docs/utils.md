@@ -7,3 +7,8 @@ for scripting and prototyping
 
 ::: pycalendar_api.utils.app_utils
     :docstring:
+
+## HTTP Client
+
+::: pycalendar_api.utils.http_client
+    :docstring:

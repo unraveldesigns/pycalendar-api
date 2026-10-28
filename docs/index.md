@@ -26,7 +26,7 @@ Easy and free registration to [Calendar API](https://calendar-api.ma/console/reg
 - **Business Day Calculations**: Calculate working days, skipping custom weekends and local banking closures.
 - **Modern Python Design**: Built with `dataclasses`, fully typed, and automatic JSON-to-Python object conversion.
 - **Minimal Dependencies**: Lightweight and fast.
-- **Advanced Configuration**: Supports `.toml` files for timeout, proxy, and certificate management.
+- **Advanced Configuration**: Proxy (and `HTTPS_PROXY`/`NO_PROXY`), timeouts, retries, CA bundles and client certificates, as client arguments or in a `.toml` file.
 
 ## 📦 Installation
 
@@ -198,6 +198,53 @@ async def main():
 
 asyncio.run(main())
 ```
+
+### 🔧 Configuration
+
+Every client accepts the HTTP options as keyword arguments. They override the configuration and work the same on `CalendarApi` and `AsyncCalendarApi`, and with `from_env()` / `from_config_file()`:
+
+```python
+from pycalendar_api import CalendarApi
+
+api = CalendarApi(
+    'YOUR_API_KEY',
+    proxy='http://user:pass@proxy.corp:3128',
+    timeout=30,                          # connect timeout, the read timeout defaults to timeout * 5
+    verify='/etc/ssl/certs/corp-ca.pem', # CA bundle file or directory (or False to disable the verification)
+)
+
+api = CalendarApi.from_env(proxy='http://proxy.corp:3128')
+```
+
+| Option | Default | Description |
+|---|---|---|
+| `proxy` | `None` | Proxy URL. When unset, `HTTPS_PROXY` / `HTTP_PROXY` / `ALL_PROXY` and `NO_PROXY` are used |
+| `trust_env` | `True` | Use the proxy and the `SSL_CERT_FILE` / `SSL_CERT_DIR` environment variables |
+| `timeout` | `10` | Connect/write/pool timeout in seconds |
+| `read_timeout` | `None` | Read timeout in seconds, `timeout * 5` when unset |
+| `retries` | `3` | Retries on connection errors |
+| `verify` | `True` | Verify the server certificate, or path to a CA bundle |
+| `cert` / `cert_key` | `None` | Client certificate and its key (PEM), for mutual TLS |
+| `follow_redirects` | `True` | Follow the HTTP redirects |
+| `default_encoding` | `"utf-8"` | Encoding of the responses without charset |
+
+The same options can be stored in a `toml` file, in the `[http_client]` section:
+
+```toml
+[api]
+api_key = "YOUR_API_KEY"
+
+[http_client]
+timeout = 30
+proxy = "http://proxy.corp:3128"
+verify = "/etc/ssl/certs/corp-ca.pem"
+```
+
+```python
+api = CalendarApi.from_config_file('pycalendar-api.toml')
+```
+
+Anything else `httpx` supports can be passed with `client_kwargs`, ie: `CalendarApi('KEY', client_kwargs={'limits': httpx.Limits(max_connections=10)})`.
 
 ## 🏷️ Enum Properties
 

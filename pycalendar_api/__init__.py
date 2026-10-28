@@ -1,4 +1,4 @@
-from pycalendar_api.config import Settings, load_settings  # noqa: I001
+from pycalendar_api.config import HTTPClientConfig, Settings, load_settings  # noqa: I001
 from pycalendar_api.exceptions import (
     CalendarAPIAuthError,
     CalendarAPIClientError,

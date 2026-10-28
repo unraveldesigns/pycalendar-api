@@ -1,9 +1,9 @@
 from pathlib import Path
-from typing import Self
+from typing import Self, Unpack
 
 import httpx
 
-from .config import CONSTANTS, Settings, load_settings
+from .config import CONSTANTS, HTTPClientOptions, Settings, load_settings
 from .domains.bdays import AsyncBDaysResource, BDaysResource
 from .domains.health import ApiHealth, AsyncHealthsResource, HealthsResource
 from .domains.holidays import AsyncHolidaysResource, HolidaysResource
@@ -12,16 +12,33 @@ from .domains.holidays import AsyncHolidaysResource, HolidaysResource
 class _BaseCalendarApi:
     """Configuration and constructors shared by `CalendarApi` and `AsyncCalendarApi`"""
 
-    def __init__(self, apikey: str=None, config: Settings=None, *, transport=None, **kwargs):
+    def __init__(
+        self, apikey: str=None, config: Settings=None, *,
+        transport=None, client_kwargs: dict=None, **http_options: Unpack[HTTPClientOptions],
+    ):
+        """
+        Args:
+            apikey (str, optional): API key. Overrides the one of `config`
+            config (Settings, optional): Configuration. Default: `Settings()`
+            transport (optional): Custom `httpx` transport (tests...). Replaces the one built from the HTTP options
+            client_kwargs (dict, optional): Extra `httpx.Client` / `httpx.AsyncClient` arguments (`limits`, `auth`, `event_hooks`...)
+            **http_options: Override the `[http_client]` options of `config` (`proxy`, `timeout`, `verify`...). See `HTTPClientConfig`
+
+        Raises:
+            TypeError: Unknown HTTP option
+        """
         self.config = config or Settings()
-        if apikey:
+        if apikey or http_options:
             # Do not mutate a shared (possibly cached by `load_settings`) configuration
             self.config = self.config.duplicate()
+        if apikey:
             self.config.api.api_key = apikey
+        if http_options:
+            self.config.http_client = self.config.http_client.override(**http_options)
 
-        self.client = self._create_client(transport)
+        self.client = self._create_client(transport, client_kwargs)
 
-    def _create_client(self, transport=None) -> httpx.Client | httpx.AsyncClient:
+    def _create_client(self, transport=None, client_kwargs: dict=None) -> httpx.Client | httpx.AsyncClient:
         raise NotImplementedError
 
     def __repr__(self):
@@ -29,27 +46,33 @@ class _BaseCalendarApi:
         return rv
 
     @classmethod
-    def from_env(cls) -> Self:
+    def from_env(cls, *, transport=None, client_kwargs: dict=None, **http_options: Unpack[HTTPClientOptions]) -> Self:
         """Uses the API-KEY defined in the environment variable
+
+        Args:
+            transport, client_kwargs, **http_options: See the constructor
 
         Returns:
             Self: Configured instance
         """
         conf = load_settings(from_env=True)
-        return cls(config=conf)
+        return cls(config=conf, transport=transport, client_kwargs=client_kwargs, **http_options)
 
     @classmethod
-    def from_config_file(cls, fpath: str) -> Self:
+    def from_config_file(
+        cls, fpath: str, *, transport=None, client_kwargs: dict=None, **http_options: Unpack[HTTPClientOptions],
+    ) -> Self:
         """Load the configuration from the toml file.
 
         Args:
             fpath (str): Configuration path
+            transport, client_kwargs, **http_options: See the constructor. `http_options` override the file
 
         Returns:
             Self: Configured instance
         """
         conf = Settings.from_config_file(fpath)
-        return cls(config=conf)
+        return cls(config=conf, transport=transport, client_kwargs=client_kwargs, **http_options)
 
     @property
     def openapi_schema_url(self) -> str:
@@ -74,15 +97,18 @@ class CalendarApi(_BaseCalendarApi):
     """
     client: httpx.Client
 
-    def __init__(self, apikey: str=None, config: Settings=None, *, transport: httpx.BaseTransport=None, **kwargs):
-        super().__init__(apikey=apikey, config=config, transport=transport, **kwargs)
+    def __init__(
+        self, apikey: str=None, config: Settings=None, *,
+        transport: httpx.BaseTransport=None, client_kwargs: dict=None, **http_options: Unpack[HTTPClientOptions],
+    ):
+        super().__init__(apikey=apikey, config=config, transport=transport, client_kwargs=client_kwargs, **http_options)
         # ------ Domains APIs ------
         self.bdays = BDaysResource(self.client)
         self.holidays = HolidaysResource(self.client)
         self.h = HealthsResource(self.client)
 
-    def _create_client(self, transport: httpx.BaseTransport=None) -> httpx.Client:
-        return self.config.create_http_client(transport=transport)
+    def _create_client(self, transport: httpx.BaseTransport=None, client_kwargs: dict=None) -> httpx.Client:
+        return self.config.create_http_client(transport=transport, client_kwargs=client_kwargs)
 
     def __enter__(self) -> Self:
         return self
@@ -119,15 +145,18 @@ class AsyncCalendarApi(_BaseCalendarApi):
     """
     client: httpx.AsyncClient
 
-    def __init__(self, apikey: str=None, config: Settings=None, *, transport: httpx.AsyncBaseTransport=None, **kwargs):
-        super().__init__(apikey=apikey, config=config, transport=transport, **kwargs)
+    def __init__(
+        self, apikey: str=None, config: Settings=None, *,
+        transport: httpx.AsyncBaseTransport=None, client_kwargs: dict=None, **http_options: Unpack[HTTPClientOptions],
+    ):
+        super().__init__(apikey=apikey, config=config, transport=transport, client_kwargs=client_kwargs, **http_options)
         # ------ Domains APIs ------
         self.bdays = AsyncBDaysResource(self.client)
         self.holidays = AsyncHolidaysResource(self.client)
         self.h = AsyncHealthsResource(self.client)
 
-    def _create_client(self, transport: httpx.AsyncBaseTransport=None) -> httpx.AsyncClient:
-        return self.config.create_http_client_async(transport=transport)
+    def _create_client(self, transport: httpx.AsyncBaseTransport=None, client_kwargs: dict=None) -> httpx.AsyncClient:
+        return self.config.create_http_client_async(transport=transport, client_kwargs=client_kwargs)
 
     async def __aenter__(self) -> Self:
         return self

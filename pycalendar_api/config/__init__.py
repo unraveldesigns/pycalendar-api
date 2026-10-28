@@ -4,4 +4,4 @@ from .constants import (
     CONSTANTS,
 )
 from .loader import load_settings
-from .settings import Settings
+from .settings import ApiConfig, HTTPClientConfig, HTTPClientOptions, Settings
