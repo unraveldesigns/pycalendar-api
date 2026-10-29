@@ -23,6 +23,7 @@ Easy and free registration to [Calendar API](https://calendar-api.ma/console/reg
 
 - **Moroccan Public Holidays**: Dynamically fetch national, religious, and exceptional holidays.
 - **Dual Calendar Support**: Track `Religious` and `Exceptional` holidays for accurate calculation and history sanitization.
+- **Tagged Calendar**: Every day of a month or a year tagged `BUSINESS`, `WEEKEND` or `HOLIDAY`, laid out in weeks for calendar grids.
 - **Business Day Calculations**: Calculate working days, skipping custom weekends and local banking closures.
 - **Modern Python Design**: Built with `dataclasses`, fully typed, and automatic JSON-to-Python object conversion.
 - **Minimal Dependencies**: Lightweight and fast.
@@ -180,6 +181,37 @@ CalSpan(start_date=datetime.date(2025, 6, 30), end_date=datetime.date(2025, 9, 3
 CalSpan(start_date=datetime.date(2025, 6, 30), end_date=datetime.date(2025, 7, 31), year=2025, semester=None, quarter=None, month=7, country_code='MA')
 ```
 
+### 📅 Tagged Calendar API
+
+The Tagged Calendar returns **every day** of a month or a year, tagged with its kind: `BUSINESS`, `WEEKEND` or `HOLIDAY` (with the holiday type, status and description).
+Months are laid out in ISO weeks (Monday → Sunday), ready to be rendered as a calendar grid. The days outside the month are `None`.
+
+```python
+from pycalendar_api import CalendarApi, DayKind
+
+>>> api = CalendarApi('YOUR_API_KEY')
+>>> january = api.tagged.month(2026, 1)
+>>> january.label, january.weekday_labels
+('January 2026', ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'])
+>>> january.counts
+TaggedDaysCount(business_days=20, weekend_days=9, holidays=2)
+>>> january.weeks[0]  # 2026-01-01 is a Thursday
+[None, None, None, TaggedDay(date=datetime.date(2026, 1, 1), day_kind=<DayKind.HOLIDAY: 'HOLIDAY'>, ...), ...]
+
+# Iterate over the days of the month, without the `None` padding
+>>> [d.date for d in january if d.day_kind == DayKind.HOLIDAY]
+[datetime.date(2026, 1, 1), datetime.date(2026, 1, 14)]
+
+# Full year, month by month
+>>> year = api.tagged.year(2026)
+>>> year.counts.total
+365
+>>> year.month(7).label
+'July 2026'
+```
+
+A holiday falling on a weekend keeps `is_holiday=True` and its description, but its `day_kind` is `WEEKEND`: the counts by kind always add up to the number of days.
+
 ### ⚡ Async Client
 
 `AsyncCalendarApi` exposes the same domains and operations as `CalendarApi`, to be awaited.
@@ -270,6 +302,16 @@ These statuses apply to religious holidays, which are `Estimated` before moon si
 | ------------- | ------------------------------------------------------------ |
 | **Official**  | The holiday is officially confirmed.                         |
 | **Estimated** | The religious holiday is pending moon sighting confirmation. |
+
+### 📅 Day Kind (`StrEnum`)
+
+Every day of the Tagged Calendar has exactly one kind
+
+|      Value      | Description                                                       |
+| :-------------: | ----------------------------------------------------------------- |
+|  **BUSINESS**   | The day is an open business day                                   |
+|   **WEEKEND**   | Saturday or Sunday, including a holiday falling on a weekend      |
+|   **HOLIDAY**   | A holiday falling on a weekday                                    |
 
 ## 🛠️ Support
 

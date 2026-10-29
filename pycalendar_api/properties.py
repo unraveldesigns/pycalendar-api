@@ -36,6 +36,20 @@ class CalHolidayStatus(StrEnum):
     OFFICIAL = 'Official'
 
 
+class DayKind(StrEnum):
+    """Kind of a day of the Tagged Calendar. Every day has exactly one kind:
+
+        - **ND**: Behaves like Null, Disable this filter
+        - **BUSINESS**: The day is an open business day
+        - **WEEKEND**: The day is a Saturday or a Sunday. A holiday falling on a weekend is a `WEEKEND`
+        - **HOLIDAY**: The day is a holiday falling on a weekday
+    """
+    ND = "ND"
+    BUSINESS = "BUSINESS"
+    WEEKEND = "WEEKEND"
+    HOLIDAY = "HOLIDAY"
+
+
 class CalMode(StrEnum):
 
     """The Mode used by the Fin Calendar to calulate the reference dates of dynamic periods. i.e: 3:M, 23:W, 12:Y, ...

@@ -2,12 +2,11 @@
 
 Endpoints are grouped under tags which represent a domain exposed by the API.
 
-Calendar API exposes 2 domains:
+Calendar API exposes 3 domains:
 
 - Holidays: Holidays related operations
 - Bdays: Business Days related operations
-
-Conceptually if we merge the results of both of them we will have the whole calendar
+- Tagged Calendar: Both of them merged, every day tagged with its kind. This is the whole calendar
 
 In the client side, the domains are represented as Resource adapters
 
@@ -18,6 +17,9 @@ In the client side, the domains are represented as Resource adapters
     :docstring:
 
 ::: pycalendar_api.domains.bdays.BDaysResource
+    :docstring:
+
+::: pycalendar_api.domains.tagged.TaggedCalendarResource
     :docstring:
 
 ::: pycalendar_api.domains.health.HealthsResource
@@ -34,6 +36,9 @@ In the client side, the domains are represented as Resource adapters
     :docstring:
 
 ::: pycalendar_api.domains.bdays.AsyncBDaysResource
+    :docstring:
+
+::: pycalendar_api.domains.tagged.AsyncTaggedCalendarResource
     :docstring:
 
 ::: pycalendar_api.domains.health.AsyncHealthsResource

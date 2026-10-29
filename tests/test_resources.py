@@ -9,8 +9,19 @@ import httpx
 import pytest
 
 from pycalendar_api import AsyncCalendarApi, CalendarApi, CalendarAPIAuthError, CalendarAPIParamError
-from pycalendar_api.models import CalSpan, DateSeries, DaysCount, Holiday, HolidayCheckResult, NextDate, PreviousDate
-from pycalendar_api.properties import CalFreq, CalHolidayStatus, CalHolidayType
+from pycalendar_api.models import (
+    CalSpan,
+    DateSeries,
+    DaysCount,
+    Holiday,
+    HolidayCheckResult,
+    NextDate,
+    PreviousDate,
+    TaggedDay,
+    TaggedMonth,
+    TaggedYear,
+)
+from pycalendar_api.properties import CalFreq, CalHolidayStatus, CalHolidayType, DayKind
 
 from .conftest import FAKE_APIKEY, FakeServer
 
@@ -157,6 +168,70 @@ async def test_holidays_is_holiday(api, fake_server: FakeServer):
     assert isinstance(res, HolidayCheckResult)
     assert res.is_holiday is True
     assert res.status == CalHolidayStatus.OFFICIAL
+
+
+# ---- Tagged Calendar ----
+def tagged_day(day: date) -> dict | None:
+    """`TaggedDayEng` payload of the server for January 2026: the 1st and the 14th are holidays"""
+    holidays = {1: 'Nouvel an', 14: 'Nouvel an amazigh'}
+    is_weekend = day.weekday() >= 5
+    is_holiday = day.day in holidays
+    kind = 'WEEKEND' if is_weekend else 'HOLIDAY' if is_holiday else 'BUSINESS'
+    return {
+        'date': day.isoformat(), 'day_kind': kind,
+        'is_business_day': kind == 'BUSINESS', 'is_weekend': is_weekend, 'is_holiday': is_holiday,
+        'holiday_type': 'National' if is_holiday else None,
+        'status': 'Official' if is_holiday else None,
+        'description': holidays.get(day.day),
+        'label': f"Jan {day.day} — {holidays.get(day.day, 'Weekend' if is_weekend else 'Business day')}",
+        'country_code': 'MA',
+    }
+
+
+def tagged_january() -> dict:
+    """`TaggedMonthEng` payload: 2026-01-01 is a Thursday, the weeks are padded with `null`"""
+    days = [None] * 3 + [tagged_day(date(2026, 1, d)) for d in range(1, 32)] + [None]
+    return {
+        'year': 2026, 'month': 1, 'label': 'January 2026',
+        'weekday_labels': ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'],
+        'counts': {'business_days': 20, 'weekend_days': 9, 'holidays': 2},
+        'weeks': [days[i:i + 7] for i in range(0, len(days), 7)],
+    }
+
+
+@pytest.mark.parametrize("month", [1, '01'])
+async def test_tagged_month(api, fake_server: FakeServer, month):
+    fake_server.route(f'{API}/tagged-calendar/2026/1', tagged_january())
+    res = await resolve(api.tagged.month(2026, month))
+    assert fake_server.last.url.path == f'{API}/tagged-calendar/2026/1'
+    assert isinstance(res, TaggedMonth)
+    assert res.label == 'January 2026'
+    assert res.counts.total == 31
+    assert len(res.weeks) == 5
+    assert all(len(week) == 7 for week in res.weeks)
+    assert res.weeks[0][:3] == [None, None, None], "Days outside the month are None"
+
+    assert [d.date for d in res] == [date(2026, 1, d) for d in range(1, 32)]
+    first, amazigh, saturday = res.days[0], res.days[13], res.days[2]
+    assert isinstance(first, TaggedDay)
+    assert (first.day_kind, first.holiday_type, first.status) == (DayKind.HOLIDAY, CalHolidayType.NATIONAL, CalHolidayStatus.OFFICIAL)
+    assert amazigh.description == 'Nouvel an amazigh'
+    assert saturday.day_kind == DayKind.WEEKEND
+    assert saturday.holiday_type is None
+    assert sum(d.day_kind == DayKind.BUSINESS for d in res) == res.counts.business_days
+
+
+async def test_tagged_year(api, fake_server: FakeServer):
+    january = tagged_january()
+    fake_server.route(f'{API}/tagged-calendar/2026', {'year': 2026, 'counts': january['counts'], 'months': [january]})
+    res = await resolve(api.tagged.year(2026))
+    assert fake_server.last.url.path == f'{API}/tagged-calendar/2026'
+    assert isinstance(res, TaggedYear)
+    assert res.counts.holidays == 2
+    assert isinstance(res.month(1), TaggedMonth)
+    assert len(res.days) == len(list(res)) == 31
+    with pytest.raises(KeyError):
+        res.month(2)
 
 
 # ---- OpenAPI schema ----

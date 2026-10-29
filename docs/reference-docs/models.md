@@ -20,3 +20,17 @@
 
 ::: pycalendar_api.models.ApiHealth
     :docstring:
+
+## Tagged Calendar
+
+::: pycalendar_api.models.TaggedYear
+    :docstring:
+
+::: pycalendar_api.models.TaggedMonth
+    :docstring:
+
+::: pycalendar_api.models.TaggedDay
+    :docstring:
+
+::: pycalendar_api.models.TaggedDaysCount
+    :docstring:

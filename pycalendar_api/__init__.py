@@ -11,6 +11,7 @@ from pycalendar_api.properties import (
     CalHolidayType,
     CalMode,
     CalStep,
+    DayKind,
 )
 from pycalendar_api.utils import (
     UtilsError,

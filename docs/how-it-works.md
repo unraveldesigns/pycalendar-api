@@ -16,8 +16,25 @@ Since Morocco is a Kingdom (Royaume du Maroc), there are holidays which depend o
 
 ## Weekends
 
-Weekends (Saturday and Sunday) are considered as holidays in our API, but they are not returned in the response.
+Weekends (Saturday and Sunday) are considered as days off in our API. The Holidays and Business days endpoints do not return them,
+the Tagged Calendar returns them tagged as `WEEKEND`.
 Officially only the Sunday is a dayoff, but since the whole economy works from Monday - Friday, we decided to consider them both for a better user/developper experience.
+
+## Tagged Calendar
+
+The Tagged Calendar merges the Holidays and the Business days in a single view: every day of the period is returned with one `DayKind`.
+
+- `BUSINESS`: an open business day (`is_business_day=True`)
+- `WEEKEND`: a Saturday or a Sunday. **A holiday falling on a weekend is a `WEEKEND`**, it keeps `is_holiday=True`, its type, status and description
+- `HOLIDAY`: a holiday falling on a weekday
+
+Thanks to this rule, the `counts` by kind (`business_days + weekend_days + holidays`) always equal the number of days of the period.
+
+Each month is laid out in **ISO weeks** (Monday → Sunday) with `weekday_labels` as column headers; the days of the previous and next months are `None`, so `weeks` can be rendered directly as a calendar grid.
+`label` is a ready to display text, ie: `Jan 14 — Nouvel an amazigh`, `Jan 3 — Weekend`, `Jan 5 — Business day`. An estimated religious holiday ends with ` (estimated)`.
+
+Like the Holidays endpoints, exceptional holidays are not exposed, those days are tagged as regular days.
+The Tagged Calendar covers the years **2000 → 2040**.
 
 ## Data Model
 

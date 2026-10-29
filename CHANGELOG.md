@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0](https://gitlab.com/ud-labs/py-calendar-api/-/releases/1.0.0) - 2026-10-28
+
+### Features
+
+- Tagged Calendar: `api.tagged.year(year)` and `api.tagged.month(year, month)` (`/tagged-calendar`), sync and async. Every day is tagged `BUSINESS`, `WEEKEND` or `HOLIDAY`, months are laid out in ISO weeks
+- New models `TaggedYear`, `TaggedMonth`, `TaggedDay`, `TaggedDaysCount` and the `DayKind` enum
+
+### Documentation
+
+- Document the Tagged Calendar in the README and in How it Works
+
 ## [0.9.0](https://gitlab.com/ud-labs/py-calendar-api/-/releases/0.9.0) - 2026-10-26
 
 ### Features

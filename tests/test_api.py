@@ -6,6 +6,7 @@ import pytest
 from pycalendar_api import AsyncCalendarApi, CalendarApi, Settings
 from pycalendar_api.config import CONSTANTS, ConfigurationError, load_settings
 from pycalendar_api.domains.bdays import AsyncBDaysResource, BDaysResource
+from pycalendar_api.domains.tagged import AsyncTaggedCalendarResource, TaggedCalendarResource
 from pycalendar_api.utils import get_http_client, get_http_client_async
 
 pytestmark = pytest.mark.client
@@ -67,7 +68,9 @@ async def test_async_from_env(monkeypatch: pytest.MonkeyPatch):
 
 
 # ---- Sync / Async parity ----
-@pytest.mark.parametrize(("sync_cls", "async_cls"), [(CalendarApi, AsyncCalendarApi), (BDaysResource, AsyncBDaysResource)])
+@pytest.mark.parametrize(("sync_cls", "async_cls"), [
+    (CalendarApi, AsyncCalendarApi), (BDaysResource, AsyncBDaysResource), (TaggedCalendarResource, AsyncTaggedCalendarResource),
+])
 def test_async_interface_mirrors_sync(sync_cls: type, async_cls: type):
     # Operations defined by the sync class itself, inherited helpers (endpoint_by_operation...) stay sync
     public = {name for name, attr in vars(sync_cls).items() if inspect.isfunction(attr) and not name.startswith('_')}

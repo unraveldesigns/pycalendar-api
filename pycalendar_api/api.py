@@ -7,6 +7,7 @@ from .config import CONSTANTS, HTTPClientOptions, Settings, load_settings
 from .domains.bdays import AsyncBDaysResource, BDaysResource
 from .domains.health import ApiHealth, AsyncHealthsResource, HealthsResource
 from .domains.holidays import AsyncHolidaysResource, HolidaysResource
+from .domains.tagged import AsyncTaggedCalendarResource, TaggedCalendarResource
 
 
 class _BaseCalendarApi:
@@ -105,6 +106,7 @@ class CalendarApi(_BaseCalendarApi):
         # ------ Domains APIs ------
         self.bdays = BDaysResource(self.client)
         self.holidays = HolidaysResource(self.client)
+        self.tagged = TaggedCalendarResource(self.client)
         self.h = HealthsResource(self.client)
 
     def _create_client(self, transport: httpx.BaseTransport=None, client_kwargs: dict=None) -> httpx.Client:
@@ -153,6 +155,7 @@ class AsyncCalendarApi(_BaseCalendarApi):
         # ------ Domains APIs ------
         self.bdays = AsyncBDaysResource(self.client)
         self.holidays = AsyncHolidaysResource(self.client)
+        self.tagged = AsyncTaggedCalendarResource(self.client)
         self.h = AsyncHealthsResource(self.client)
 
     def _create_client(self, transport: httpx.AsyncBaseTransport=None, client_kwargs: dict=None) -> httpx.AsyncClient:

@@ -15,4 +15,7 @@ ENDPOINTS = {
     'holidays:is-holiday' : '/holidays/is-holiday',
     'holidays:year' : '/holidays/{year}',
     'holidays:years' : '/holidays/years',
+    # ================================================
+    'tagged:month' : '/tagged-calendar/{year}/{month}',
+    'tagged:year' : '/tagged-calendar/{year}',
 }
